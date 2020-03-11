@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.taikang.jkx.mapper.ImportTreatmentBatchMapper">
+  <resultMap id="BaseResultMap" type="com.taikang.jkx.model.ImportTreatmentBatch">
+    <id column="batch_number" jdbcType="VARCHAR" property="batchNumber" />
+    <result column="creator_login_name" jdbcType="VARCHAR" property="creatorLoginName" />
+    <result column="creator_true_name" jdbcType="VARCHAR" property="creatorTrueName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="creator_group_id" jdbcType="VARCHAR" property="creatorGroupId" />
+    <result column="creator_group_name" jdbcType="VARCHAR" property="creatorGroupName" />
+    <result column="success_num" jdbcType="INTEGER" property="successNum" />
+    <result column="error_num" jdbcType="INTEGER" property="errorNum" />
+    <result column="manage_group_id" jdbcType="VARCHAR" property="manageGroupId" />
+    <result column="manage_group_name" jdbcType="VARCHAR" property="manageGroupName" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    batch_number, creator_login_name, creator_true_name, create_time, creator_group_id, 
+    creator_group_name, success_num, error_num, manage_group_id, manage_group_name
+  </sql>
+  <select id="selectByExample" parameterType="com.taikang.jkx.model.ImportTreatmentBatchExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from import_treatment_batch
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from import_treatment_batch
+    where batch_number = #{batchNumber,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from import_treatment_batch
+    where batch_number = #{batchNumber,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.taikang.jkx.model.ImportTreatmentBatchExample">
+    delete from import_treatment_batch
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.taikang.jkx.model.ImportTreatmentBatch">
+    insert into import_treatment_batch (batch_number, creator_login_name, creator_true_name, 
+      create_time, creator_group_id, creator_group_name, 
+      success_num, error_num, manage_group_id, 
+      manage_group_name)
+    values (#{batchNumber,jdbcType=VARCHAR}, #{creatorLoginName,jdbcType=VARCHAR}, #{creatorTrueName,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{creatorGroupId,jdbcType=VARCHAR}, #{creatorGroupName,jdbcType=VARCHAR}, 
+      #{successNum,jdbcType=INTEGER}, #{errorNum,jdbcType=INTEGER}, #{manageGroupId,jdbcType=VARCHAR}, 
+      #{manageGroupName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.taikang.jkx.model.ImportTreatmentBatch">
+    insert into import_treatment_batch
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="batchNumber != null">
+        batch_number,
+      </if>
+      <if test="creatorLoginName != null">
+        creator_login_name,
+      </if>
+      <if test="creatorTrueName != null">
+        creator_true_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="creatorGroupId != null">
+        creator_group_id,
+      </if>
+      <if test="creatorGroupName != null">
+        creator_group_name,
+      </if>
+      <if test="successNum != null">
+        success_num,
+      </if>
+      <if test="errorNum != null">
+        error_num,
+      </if>
+      <if test="manageGroupId != null">
+        manage_group_id,
+      </if>
+      <if test="manageGroupName != null">
+        manage_group_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="batchNumber != null">
+        #{batchNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="creatorLoginName != null">
+        #{creatorLoginName,jdbcType=VARCHAR},
+      </if>
+      <if test="creatorTrueName != null">
+        #{creatorTrueName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creatorGroupId != null">
+        #{creatorGroupId,jdbcType=VARCHAR},
+      </if>
+      <if test="creatorGroupName != null">
+        #{creatorGroupName,jdbcType=VARCHAR},
+      </if>
+      <if test="successNum != null">
+        #{successNum,jdbcType=INTEGER},
+      </if>
+      <if test="errorNum != null">
+        #{errorNum,jdbcType=INTEGER},
+      </if>
+      <if test="manageGroupId != null">
+        #{manageGroupId,jdbcType=VARCHAR},
+      </if>
+      <if test="manageGroupName != null">
+        #{manageGroupName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.taikang.jkx.model.ImportTreatmentBatchExample" resultType="java.lang.Long">
+    select count(*) from import_treatment_batch
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update import_treatment_batch
+    <set>
+      <if test="record.batchNumber != null">
+        batch_number = #{record.batchNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.creatorLoginName != null">
+        creator_login_name = #{record.creatorLoginName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.creatorTrueName != null">
+        creator_true_name = #{record.creatorTrueName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.creatorGroupId != null">
+        creator_group_id = #{record.creatorGroupId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.creatorGroupName != null">
+        creator_group_name = #{record.creatorGroupName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.successNum != null">
+        success_num = #{record.successNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.errorNum != null">
+        error_num = #{record.errorNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.manageGroupId != null">
+        manage_group_id = #{record.manageGroupId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.manageGroupName != null">
+        manage_group_name = #{record.manageGroupName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update import_treatment_batch
+    set batch_number = #{record.batchNumber,jdbcType=VARCHAR},
+      creator_login_name = #{record.creatorLoginName,jdbcType=VARCHAR},
+      creator_true_name = #{record.creatorTrueName,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      creator_group_id = #{record.creatorGroupId,jdbcType=VARCHAR},
+      creator_group_name = #{record.creatorGroupName,jdbcType=VARCHAR},
+      success_num = #{record.successNum,jdbcType=INTEGER},
+      error_num = #{record.errorNum,jdbcType=INTEGER},
+      manage_group_id = #{record.manageGroupId,jdbcType=VARCHAR},
+      manage_group_name = #{record.manageGroupName,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.taikang.jkx.model.ImportTreatmentBatch">
+    update import_treatment_batch
+    <set>
+      <if test="creatorLoginName != null">
+        creator_login_name = #{creatorLoginName,jdbcType=VARCHAR},
+      </if>
+      <if test="creatorTrueName != null">
+        creator_true_name = #{creatorTrueName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creatorGroupId != null">
+        creator_group_id = #{creatorGroupId,jdbcType=VARCHAR},
+      </if>
+      <if test="creatorGroupName != null">
+        creator_group_name = #{creatorGroupName,jdbcType=VARCHAR},
+      </if>
+      <if test="successNum != null">
+        success_num = #{successNum,jdbcType=INTEGER},
+      </if>
+      <if test="errorNum != null">
+        error_num = #{errorNum,jdbcType=INTEGER},
+      </if>
+      <if test="manageGroupId != null">
+        manage_group_id = #{manageGroupId,jdbcType=VARCHAR},
+      </if>
+      <if test="manageGroupName != null">
+        manage_group_name = #{manageGroupName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where batch_number = #{batchNumber,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.taikang.jkx.model.ImportTreatmentBatch">
+    update import_treatment_batch
+    set creator_login_name = #{creatorLoginName,jdbcType=VARCHAR},
+      creator_true_name = #{creatorTrueName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      creator_group_id = #{creatorGroupId,jdbcType=VARCHAR},
+      creator_group_name = #{creatorGroupName,jdbcType=VARCHAR},
+      success_num = #{successNum,jdbcType=INTEGER},
+      error_num = #{errorNum,jdbcType=INTEGER},
+      manage_group_id = #{manageGroupId,jdbcType=VARCHAR},
+      manage_group_name = #{manageGroupName,jdbcType=VARCHAR}
+    where batch_number = #{batchNumber,jdbcType=VARCHAR}
+  </update>
+</mapper>

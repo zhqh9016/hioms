@@ -1,0 +1,551 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.taikang.jkx.mapper.HiomsTreatmentMapper">
+  <resultMap id="BaseResultMap" type="com.taikang.jkx.model.HiomsTreatment">
+    <id column="treatment_number" jdbcType="VARCHAR" property="treatmentNumber" />
+    <result column="serial_no" jdbcType="INTEGER" property="serialNo" />
+    <result column="is_pay" jdbcType="VARCHAR" property="isPay" />
+    <result column="pay_time" jdbcType="TIMESTAMP" property="payTime" />
+    <result column="social_card" jdbcType="VARCHAR" property="socialCard" />
+    <result column="settle_time" jdbcType="TIMESTAMP" property="settleTime" />
+    <result column="insured_person" jdbcType="VARCHAR" property="insuredPerson" />
+    <result column="id_card" jdbcType="VARCHAR" property="idCard" />
+    <result column="pay_target" jdbcType="INTEGER" property="payTarget" />
+    <result column="total_fee" jdbcType="REAL" property="totalFee" />
+    <result column="plan_fee" jdbcType="REAL" property="planFee" />
+    <result column="out_plan_fee" jdbcType="REAL" property="outPlanFee" />
+    <result column="start_fee_line" jdbcType="REAL" property="startFeeLine" />
+    <result column="special_pay_self" jdbcType="REAL" property="specialPaySelf" />
+    <result column="inside_large_fee" jdbcType="REAL" property="insideLargeFee" />
+    <result column="large_fee" jdbcType="REAL" property="largeFee" />
+    <result column="large_fee_confirm" jdbcType="REAL" property="largeFeeConfirm" />
+    <result column="patrol_id" jdbcType="VARCHAR" property="patrolId" />
+    <result column="patrol_status" jdbcType="INTEGER" property="patrolStatus" />
+    <result column="patrol_result" jdbcType="INTEGER" property="patrolResult" />
+    <result column="return_visit_id" jdbcType="VARCHAR" property="returnVisitId" />
+    <result column="return_visit_status" jdbcType="VARCHAR" property="returnVisitStatus" />
+    <result column="group_id" jdbcType="VARCHAR" property="groupId" />
+    <result column="group_name" jdbcType="VARCHAR" property="groupName" />
+    <result column="valid" jdbcType="INTEGER" property="valid" />
+    <result column="repeat_name_num" jdbcType="INTEGER" property="repeatNameNum" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    treatment_number, serial_no, is_pay, pay_time, social_card, settle_time, insured_person, 
+    id_card, pay_target, total_fee, plan_fee, out_plan_fee, start_fee_line, special_pay_self, 
+    inside_large_fee, large_fee, large_fee_confirm, patrol_id, patrol_status, patrol_result, 
+    return_visit_id, return_visit_status, group_id, group_name, valid, repeat_name_num
+  </sql>
+  <select id="selectByExample" parameterType="com.taikang.jkx.model.HiomsTreatmentExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from hioms_treatment
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from hioms_treatment
+    where treatment_number = #{treatmentNumber,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from hioms_treatment
+    where treatment_number = #{treatmentNumber,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.taikang.jkx.model.HiomsTreatmentExample">
+    delete from hioms_treatment
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.taikang.jkx.model.HiomsTreatment">
+    insert into hioms_treatment (treatment_number, serial_no, is_pay, 
+      pay_time, social_card, settle_time, 
+      insured_person, id_card, pay_target, 
+      total_fee, plan_fee, out_plan_fee, 
+      start_fee_line, special_pay_self, inside_large_fee, 
+      large_fee, large_fee_confirm, patrol_id, 
+      patrol_status, patrol_result, return_visit_id, 
+      return_visit_status, group_id, group_name, 
+      valid, repeat_name_num)
+    values (#{treatmentNumber,jdbcType=VARCHAR}, #{serialNo,jdbcType=INTEGER}, #{isPay,jdbcType=VARCHAR}, 
+      #{payTime,jdbcType=TIMESTAMP}, #{socialCard,jdbcType=VARCHAR}, #{settleTime,jdbcType=TIMESTAMP}, 
+      #{insuredPerson,jdbcType=VARCHAR}, #{idCard,jdbcType=VARCHAR}, #{payTarget,jdbcType=INTEGER}, 
+      #{totalFee,jdbcType=REAL}, #{planFee,jdbcType=REAL}, #{outPlanFee,jdbcType=REAL}, 
+      #{startFeeLine,jdbcType=REAL}, #{specialPaySelf,jdbcType=REAL}, #{insideLargeFee,jdbcType=REAL}, 
+      #{largeFee,jdbcType=REAL}, #{largeFeeConfirm,jdbcType=REAL}, #{patrolId,jdbcType=VARCHAR}, 
+      #{patrolStatus,jdbcType=INTEGER}, #{patrolResult,jdbcType=INTEGER}, #{returnVisitId,jdbcType=VARCHAR}, 
+      #{returnVisitStatus,jdbcType=VARCHAR}, #{groupId,jdbcType=VARCHAR}, #{groupName,jdbcType=VARCHAR}, 
+      #{valid,jdbcType=INTEGER}, #{repeatNameNum,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.taikang.jkx.model.HiomsTreatment">
+    insert into hioms_treatment
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="treatmentNumber != null">
+        treatment_number,
+      </if>
+      <if test="serialNo != null">
+        serial_no,
+      </if>
+      <if test="isPay != null">
+        is_pay,
+      </if>
+      <if test="payTime != null">
+        pay_time,
+      </if>
+      <if test="socialCard != null">
+        social_card,
+      </if>
+      <if test="settleTime != null">
+        settle_time,
+      </if>
+      <if test="insuredPerson != null">
+        insured_person,
+      </if>
+      <if test="idCard != null">
+        id_card,
+      </if>
+      <if test="payTarget != null">
+        pay_target,
+      </if>
+      <if test="totalFee != null">
+        total_fee,
+      </if>
+      <if test="planFee != null">
+        plan_fee,
+      </if>
+      <if test="outPlanFee != null">
+        out_plan_fee,
+      </if>
+      <if test="startFeeLine != null">
+        start_fee_line,
+      </if>
+      <if test="specialPaySelf != null">
+        special_pay_self,
+      </if>
+      <if test="insideLargeFee != null">
+        inside_large_fee,
+      </if>
+      <if test="largeFee != null">
+        large_fee,
+      </if>
+      <if test="largeFeeConfirm != null">
+        large_fee_confirm,
+      </if>
+      <if test="patrolId != null">
+        patrol_id,
+      </if>
+      <if test="patrolStatus != null">
+        patrol_status,
+      </if>
+      <if test="patrolResult != null">
+        patrol_result,
+      </if>
+      <if test="returnVisitId != null">
+        return_visit_id,
+      </if>
+      <if test="returnVisitStatus != null">
+        return_visit_status,
+      </if>
+      <if test="groupId != null">
+        group_id,
+      </if>
+      <if test="groupName != null">
+        group_name,
+      </if>
+      <if test="valid != null">
+        valid,
+      </if>
+      <if test="repeatNameNum != null">
+        repeat_name_num,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="treatmentNumber != null">
+        #{treatmentNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="serialNo != null">
+        #{serialNo,jdbcType=INTEGER},
+      </if>
+      <if test="isPay != null">
+        #{isPay,jdbcType=VARCHAR},
+      </if>
+      <if test="payTime != null">
+        #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="socialCard != null">
+        #{socialCard,jdbcType=VARCHAR},
+      </if>
+      <if test="settleTime != null">
+        #{settleTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="insuredPerson != null">
+        #{insuredPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="idCard != null">
+        #{idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="payTarget != null">
+        #{payTarget,jdbcType=INTEGER},
+      </if>
+      <if test="totalFee != null">
+        #{totalFee,jdbcType=REAL},
+      </if>
+      <if test="planFee != null">
+        #{planFee,jdbcType=REAL},
+      </if>
+      <if test="outPlanFee != null">
+        #{outPlanFee,jdbcType=REAL},
+      </if>
+      <if test="startFeeLine != null">
+        #{startFeeLine,jdbcType=REAL},
+      </if>
+      <if test="specialPaySelf != null">
+        #{specialPaySelf,jdbcType=REAL},
+      </if>
+      <if test="insideLargeFee != null">
+        #{insideLargeFee,jdbcType=REAL},
+      </if>
+      <if test="largeFee != null">
+        #{largeFee,jdbcType=REAL},
+      </if>
+      <if test="largeFeeConfirm != null">
+        #{largeFeeConfirm,jdbcType=REAL},
+      </if>
+      <if test="patrolId != null">
+        #{patrolId,jdbcType=VARCHAR},
+      </if>
+      <if test="patrolStatus != null">
+        #{patrolStatus,jdbcType=INTEGER},
+      </if>
+      <if test="patrolResult != null">
+        #{patrolResult,jdbcType=INTEGER},
+      </if>
+      <if test="returnVisitId != null">
+        #{returnVisitId,jdbcType=VARCHAR},
+      </if>
+      <if test="returnVisitStatus != null">
+        #{returnVisitStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="groupId != null">
+        #{groupId,jdbcType=VARCHAR},
+      </if>
+      <if test="groupName != null">
+        #{groupName,jdbcType=VARCHAR},
+      </if>
+      <if test="valid != null">
+        #{valid,jdbcType=INTEGER},
+      </if>
+      <if test="repeatNameNum != null">
+        #{repeatNameNum,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.taikang.jkx.model.HiomsTreatmentExample" resultType="java.lang.Long">
+    select count(*) from hioms_treatment
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update hioms_treatment
+    <set>
+      <if test="record.treatmentNumber != null">
+        treatment_number = #{record.treatmentNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.serialNo != null">
+        serial_no = #{record.serialNo,jdbcType=INTEGER},
+      </if>
+      <if test="record.isPay != null">
+        is_pay = #{record.isPay,jdbcType=VARCHAR},
+      </if>
+      <if test="record.payTime != null">
+        pay_time = #{record.payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.socialCard != null">
+        social_card = #{record.socialCard,jdbcType=VARCHAR},
+      </if>
+      <if test="record.settleTime != null">
+        settle_time = #{record.settleTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.insuredPerson != null">
+        insured_person = #{record.insuredPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="record.idCard != null">
+        id_card = #{record.idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="record.payTarget != null">
+        pay_target = #{record.payTarget,jdbcType=INTEGER},
+      </if>
+      <if test="record.totalFee != null">
+        total_fee = #{record.totalFee,jdbcType=REAL},
+      </if>
+      <if test="record.planFee != null">
+        plan_fee = #{record.planFee,jdbcType=REAL},
+      </if>
+      <if test="record.outPlanFee != null">
+        out_plan_fee = #{record.outPlanFee,jdbcType=REAL},
+      </if>
+      <if test="record.startFeeLine != null">
+        start_fee_line = #{record.startFeeLine,jdbcType=REAL},
+      </if>
+      <if test="record.specialPaySelf != null">
+        special_pay_self = #{record.specialPaySelf,jdbcType=REAL},
+      </if>
+      <if test="record.insideLargeFee != null">
+        inside_large_fee = #{record.insideLargeFee,jdbcType=REAL},
+      </if>
+      <if test="record.largeFee != null">
+        large_fee = #{record.largeFee,jdbcType=REAL},
+      </if>
+      <if test="record.largeFeeConfirm != null">
+        large_fee_confirm = #{record.largeFeeConfirm,jdbcType=REAL},
+      </if>
+      <if test="record.patrolId != null">
+        patrol_id = #{record.patrolId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.patrolStatus != null">
+        patrol_status = #{record.patrolStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.patrolResult != null">
+        patrol_result = #{record.patrolResult,jdbcType=INTEGER},
+      </if>
+      <if test="record.returnVisitId != null">
+        return_visit_id = #{record.returnVisitId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.returnVisitStatus != null">
+        return_visit_status = #{record.returnVisitStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.groupId != null">
+        group_id = #{record.groupId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.groupName != null">
+        group_name = #{record.groupName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.valid != null">
+        valid = #{record.valid,jdbcType=INTEGER},
+      </if>
+      <if test="record.repeatNameNum != null">
+        repeat_name_num = #{record.repeatNameNum,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update hioms_treatment
+    set treatment_number = #{record.treatmentNumber,jdbcType=VARCHAR},
+      serial_no = #{record.serialNo,jdbcType=INTEGER},
+      is_pay = #{record.isPay,jdbcType=VARCHAR},
+      pay_time = #{record.payTime,jdbcType=TIMESTAMP},
+      social_card = #{record.socialCard,jdbcType=VARCHAR},
+      settle_time = #{record.settleTime,jdbcType=TIMESTAMP},
+      insured_person = #{record.insuredPerson,jdbcType=VARCHAR},
+      id_card = #{record.idCard,jdbcType=VARCHAR},
+      pay_target = #{record.payTarget,jdbcType=INTEGER},
+      total_fee = #{record.totalFee,jdbcType=REAL},
+      plan_fee = #{record.planFee,jdbcType=REAL},
+      out_plan_fee = #{record.outPlanFee,jdbcType=REAL},
+      start_fee_line = #{record.startFeeLine,jdbcType=REAL},
+      special_pay_self = #{record.specialPaySelf,jdbcType=REAL},
+      inside_large_fee = #{record.insideLargeFee,jdbcType=REAL},
+      large_fee = #{record.largeFee,jdbcType=REAL},
+      large_fee_confirm = #{record.largeFeeConfirm,jdbcType=REAL},
+      patrol_id = #{record.patrolId,jdbcType=VARCHAR},
+      patrol_status = #{record.patrolStatus,jdbcType=INTEGER},
+      patrol_result = #{record.patrolResult,jdbcType=INTEGER},
+      return_visit_id = #{record.returnVisitId,jdbcType=VARCHAR},
+      return_visit_status = #{record.returnVisitStatus,jdbcType=VARCHAR},
+      group_id = #{record.groupId,jdbcType=VARCHAR},
+      group_name = #{record.groupName,jdbcType=VARCHAR},
+      valid = #{record.valid,jdbcType=INTEGER},
+      repeat_name_num = #{record.repeatNameNum,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.taikang.jkx.model.HiomsTreatment">
+    update hioms_treatment
+    <set>
+      <if test="serialNo != null">
+        serial_no = #{serialNo,jdbcType=INTEGER},
+      </if>
+      <if test="isPay != null">
+        is_pay = #{isPay,jdbcType=VARCHAR},
+      </if>
+      <if test="payTime != null">
+        pay_time = #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="socialCard != null">
+        social_card = #{socialCard,jdbcType=VARCHAR},
+      </if>
+      <if test="settleTime != null">
+        settle_time = #{settleTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="insuredPerson != null">
+        insured_person = #{insuredPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="idCard != null">
+        id_card = #{idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="payTarget != null">
+        pay_target = #{payTarget,jdbcType=INTEGER},
+      </if>
+      <if test="totalFee != null">
+        total_fee = #{totalFee,jdbcType=REAL},
+      </if>
+      <if test="planFee != null">
+        plan_fee = #{planFee,jdbcType=REAL},
+      </if>
+      <if test="outPlanFee != null">
+        out_plan_fee = #{outPlanFee,jdbcType=REAL},
+      </if>
+      <if test="startFeeLine != null">
+        start_fee_line = #{startFeeLine,jdbcType=REAL},
+      </if>
+      <if test="specialPaySelf != null">
+        special_pay_self = #{specialPaySelf,jdbcType=REAL},
+      </if>
+      <if test="insideLargeFee != null">
+        inside_large_fee = #{insideLargeFee,jdbcType=REAL},
+      </if>
+      <if test="largeFee != null">
+        large_fee = #{largeFee,jdbcType=REAL},
+      </if>
+      <if test="largeFeeConfirm != null">
+        large_fee_confirm = #{largeFeeConfirm,jdbcType=REAL},
+      </if>
+      <if test="patrolId != null">
+        patrol_id = #{patrolId,jdbcType=VARCHAR},
+      </if>
+      <if test="patrolStatus != null">
+        patrol_status = #{patrolStatus,jdbcType=INTEGER},
+      </if>
+      <if test="patrolResult != null">
+        patrol_result = #{patrolResult,jdbcType=INTEGER},
+      </if>
+      <if test="returnVisitId != null">
+        return_visit_id = #{returnVisitId,jdbcType=VARCHAR},
+      </if>
+      <if test="returnVisitStatus != null">
+        return_visit_status = #{returnVisitStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="groupId != null">
+        group_id = #{groupId,jdbcType=VARCHAR},
+      </if>
+      <if test="groupName != null">
+        group_name = #{groupName,jdbcType=VARCHAR},
+      </if>
+      <if test="valid != null">
+        valid = #{valid,jdbcType=INTEGER},
+      </if>
+      <if test="repeatNameNum != null">
+        repeat_name_num = #{repeatNameNum,jdbcType=INTEGER},
+      </if>
+    </set>
+    where treatment_number = #{treatmentNumber,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.taikang.jkx.model.HiomsTreatment">
+    update hioms_treatment
+    set serial_no = #{serialNo,jdbcType=INTEGER},
+      is_pay = #{isPay,jdbcType=VARCHAR},
+      pay_time = #{payTime,jdbcType=TIMESTAMP},
+      social_card = #{socialCard,jdbcType=VARCHAR},
+      settle_time = #{settleTime,jdbcType=TIMESTAMP},
+      insured_person = #{insuredPerson,jdbcType=VARCHAR},
+      id_card = #{idCard,jdbcType=VARCHAR},
+      pay_target = #{payTarget,jdbcType=INTEGER},
+      total_fee = #{totalFee,jdbcType=REAL},
+      plan_fee = #{planFee,jdbcType=REAL},
+      out_plan_fee = #{outPlanFee,jdbcType=REAL},
+      start_fee_line = #{startFeeLine,jdbcType=REAL},
+      special_pay_self = #{specialPaySelf,jdbcType=REAL},
+      inside_large_fee = #{insideLargeFee,jdbcType=REAL},
+      large_fee = #{largeFee,jdbcType=REAL},
+      large_fee_confirm = #{largeFeeConfirm,jdbcType=REAL},
+      patrol_id = #{patrolId,jdbcType=VARCHAR},
+      patrol_status = #{patrolStatus,jdbcType=INTEGER},
+      patrol_result = #{patrolResult,jdbcType=INTEGER},
+      return_visit_id = #{returnVisitId,jdbcType=VARCHAR},
+      return_visit_status = #{returnVisitStatus,jdbcType=VARCHAR},
+      group_id = #{groupId,jdbcType=VARCHAR},
+      group_name = #{groupName,jdbcType=VARCHAR},
+      valid = #{valid,jdbcType=INTEGER},
+      repeat_name_num = #{repeatNameNum,jdbcType=INTEGER}
+    where treatment_number = #{treatmentNumber,jdbcType=VARCHAR}
+  </update>
+</mapper>

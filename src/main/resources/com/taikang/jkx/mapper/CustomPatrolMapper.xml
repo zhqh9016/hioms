@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.taikang.jkx.mapper.CustomPatrolMapper">
+	 <resultMap id="BaseResultMap" type="com.taikang.jkx.model.HiomsPatrol">
+    <id column="patrol_id" jdbcType="VARCHAR" property="patrolId" />
+    <result column="treatment_number" jdbcType="VARCHAR" property="treatmentNumber" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="creator" jdbcType="VARCHAR" property="creator" />
+    <result column="creator_group_id" jdbcType="VARCHAR" property="creatorGroupId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="updator" jdbcType="VARCHAR" property="updator" />
+    <result column="trustee_position_id" jdbcType="VARCHAR" property="trusteePositionId" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="nature" jdbcType="INTEGER" property="nature" />
+    <result column="execute_description" jdbcType="VARCHAR" property="executeDescription" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="valid" jdbcType="INTEGER" property="valid" />
+  </resultMap>
+	<select id="selectReceivedPatrol" parameterType="java.util.Map"
+		resultMap="BaseResultMap">
+		select * from hioms_patrol
+		left join hioms_r_user_position
+		on hioms_patrol.trustee_position_id = hioms_r_user_position.position_id
+		where hioms_r_user_position.user_id = #{userId} limit
+		#{start},#{rows};
+	</select>
+
+	<select id="countReceivedPatrol" parameterType="java.lang.String"
+		resultType="java.lang.Long">
+		select count(*) from hioms_patrol
+		left join hioms_r_user_position
+		on hioms_patrol.trustee_position_id = hioms_r_user_position.position_id
+		where hioms_r_user_position.user_id = #{userId};
+	</select>
+	<select id="selectLaunchedPatrol" parameterType="java.util.Map"
+		resultMap="BaseResultMap">
+		select * from hioms_patrol where hioms_patrol.creator = #{loginName} limit
+		#{start},#{rows};
+	</select>
+
+	<select id="countLaunchedPatrol" parameterType="java.lang.String"
+		resultType="java.lang.Long">
+		select count(*) from hioms_patrol where hioms_patrol.creator = #{loginName};
+	</select>
+</mapper>

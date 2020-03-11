@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="../css/normalize.css" />
+<link rel="stylesheet" type="text/css" href="../css/htmleaf-demo.css">
+<link href="../css/lightgallery.css" rel="stylesheet">
+<script type="text/javascript" src="../js/jquery-1.11.0.min.js"></script>
+<script src="../js/lightgallery-all.min.js"></script>
+
+</head>
+<body>
+	<div>
+		<div>
+			<ul id="downLoadList"></ul>
+			<ul id="lightgallery">
+			</ul>
+			<script type="text/javascript">
+				$(function(){
+					var sst = window.location.href.split("=")[1].split("&")[0];
+					var source = window.location.href.split("=")[2];
+					source = source.replace("#","");
+					if(sst){
+						//异步加载需要轮询的图片
+						$.post(
+							'../jkx/patrol/listPatrolAttachment',
+							{'patrolId': sst,
+							 'source':source
+							},
+							function(data) {
+								var patrolAttachments = data.rows;
+								$.each(patrolAttachments,function(index,value){
+									$("#downLoadList").append("<li><a href='../"+value.filePath+"' download='"+value.fileName+"' >"+value.fileName+"</a></li>");
+									if(value.fileType == 'jpg'||value.fileType=='jpeg'||value.fileType=='png'||value.fileType=='bmp'){
+										$("#lightgallery").append("<li class='' data-src='../"+value.filePath+"'> <a href=''> <img src='../"+value.filePath+"'/></a>");
+									}
+								});
+							},'json')
+					}
+				});
+			</script>
+		</div>
+	</div>
+</body>
+</html>

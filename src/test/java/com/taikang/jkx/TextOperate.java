@@ -1,0 +1,84 @@
+package com.taikang.jkx;
+
+public class TextOperate {
+
+//	String gerenbianhao = ExcelUtil.parseExcel(row.getCell(0));
+//	String shenfenzheng = ExcelUtil.parseExcel(row.getCell(1));
+//	String xingming = ExcelUtil.parseExcel(row.getCell(2));
+//	String xingbie = ExcelUtil.parseExcel(row.getCell(3));
+//	String nianling = ExcelUtil.parseExcel(row.getCell(4));
+//	String jiaofeirenyuanleibie = ExcelUtil.parseExcel(row.getCell(5));
+//	String jigoumingcheng = ExcelUtil.parseExcel(row.getCell(6));
+//	String zhifudidian = ExcelUtil.parseExcel(row.getCell(7));
+//	String zhifuleibie = ExcelUtil.parseExcel(row.getCell(8));
+//	String ruyuanshijian = ExcelUtil.parseExcel(row.getCell(9));
+//	String chuyuanshijian = ExcelUtil.parseExcel(row.getCell(10));
+//	String zhuyuanhao = ExcelUtil.parseExcel(row.getCell(11));
+//	String jiesuanshijian = ExcelUtil.parseExcel(row.getCell(12));
+//	String chuyuanzhenduan = ExcelUtil.parseExcel(row.getCell(13));
+//	String feiyongzonge = ExcelUtil.parseExcel(row.getCell(14));
+//	String zhengcewaizifei = ExcelUtil.parseExcel(row.getCell(15));
+//	String zhengceneiquanzifujine = ExcelUtil.parseExcel(row.getCell(16));
+//	String caobiaozifujine = ExcelUtil.parseExcel(row.getCell(17));
+//	String zhengceneifeiyong = ExcelUtil.parseExcel(row.getCell(18));
+//	String qifuxian = ExcelUtil.parseExcel(row.getCell(19));
+//	String tongchouzhifu = ExcelUtil.parseExcel(row.getCell(20));
+//	String dabingzhifu = ExcelUtil.parseExcel(row.getCell(21));
+//	String zhuyuanzhenliaofei = ExcelUtil.parseExcel(row.getCell(22));
+//	String bencidabingleiji = ExcelUtil.parseExcel(row.getCell(23));
+//	String weiguifeiyong = ExcelUtil.parseExcel(row.getCell(24));
+//	String gerenfuxian = ExcelUtil.parseExcel(row.getCell(25));
+//	String jiesuanren = ExcelUtil.parseExcel(row.getCell(26));
+//	String zhifuduixiang = ExcelUtil.parseExcel(row.getCell(27));
+//	String shifoujishijiesuan = ExcelUtil.parseExcel(row.getCell(28));
+//	String jiuzhenbianhao = ExcelUtil.parseExcel(row.getCell(29));
+//	String dabingbaoxianqifuxian = ExcelUtil.parseExcel(row.getCell(30));
+//	String dabingbaoxianzhifu = ExcelUtil.parseExcel(row.getCell(31));
+//	String weibanzhuanzhenkoujianfeiyong = ExcelUtil.parseExcel(row.getCell(32));
+//	String dangnianduzhuyuancishu = ExcelUtil.parseExcel(row.getCell(33));
+//	String dianhua = ExcelUtil.parseExcel(row.getCell(34));
+//	String zhifuren = ExcelUtil.parseExcel(row.getCell(35));
+//	String zhifushijian = ExcelUtil.parseExcel(row.getCell(36));
+//	String baoxiangongshi = ExcelUtil.parseExcel(row.getCell(37));
+	
+	
+//	if(gerenbianhao  				   !=null){treatmentRecord.setGerenbianhao  	            (gerenbianhao  				)};
+//	if(shenfenzheng  				   !=null){treatmentRecord.setShenfenzheng  	            (shenfenzheng  				)};
+//	if(xingming				           !=null){treatmentRecord.setXingming				        (xingming				        )};;
+//	if(xingbie  				       !=null){treatmentRecord.setXingbie  				        (xingbie  				    )};
+//	if(nianling  					   !=null){treatmentRecord.setNianling  		            (nianling  					)};
+//	if(jiaofeirenyuanleibie  		   !=null){treatmentRecord.setJiaofeirenyuanleibie          (jiaofeirenyuanleibie  		)};
+//	if(jigoumingcheng  		           !=null){treatmentRecord.setJigoumingcheng  		        (jigoumingcheng  		        )};
+//	if(zhifudidian  			       !=null){treatmentRecord.setZhifudidian  			        (zhifudidian  			    )};
+//	if(zhifuleibie  			       !=null){treatmentRecord.setZhifuleibie  			        (zhifuleibie  			    )};
+//	if(ruyuanshijian  		           !=null){treatmentRecord.setRuyuanshijian  		        (ruyuanshijian  		        )};
+//	if(chuyuanshijian  		           !=null){treatmentRecord.setChuyuanshijian  		        (chuyuanshijian  		        )};
+//	if(zhuyuanhao  			           !=null){treatmentRecord.setZhuyuanhao  			        (zhuyuanhao  			        )};
+//	if(jiesuanshijian  		           !=null){treatmentRecord.setJiesuanshijian  		        (jiesuanshijian  		        )};
+//	if(chuyuanzhenduan  		       !=null){treatmentRecord.setChuyuanzhenduan  		        (chuyuanzhenduan  		    )};
+//	if(feiyongzonge  				   !=null){treatmentRecord.setFeiyongzonge  	            (feiyongzonge  				)};
+//	if(zhengcewaizifei  		       !=null){treatmentRecord.setZhengcewaizifei  		        (zhengcewaizifei  		    )};
+//	if(zhengceneiquanzifujine          !=null){treatmentRecord.setZhengceneiquanzifujine        (zhengceneiquanzifujine       )};
+//	if(caobiaozifujine  		       !=null){treatmentRecord.setCaobiaozifujine  		        (caobiaozifujine  		    )};
+//	if(zhengceneifeiyong  	           !=null){treatmentRecord.setZhengceneifeiyong  	        (zhengceneifeiyong  	        )};
+//	if(qifuxian  					   !=null){treatmentRecord.setQifuxian  		            (qifuxian  					)};
+//	if(tongchouzhifu  		           !=null){treatmentRecord.setTongchouzhifu  		        (tongchouzhifu  		        )};
+//	if(dabingzhifu  			       !=null){treatmentRecord.setDabingzhifu  			        (dabingzhifu  			    )};
+//	if(zhuyuanzhenliaofei  	           !=null){treatmentRecord.setZhuyuanzhenliaofei  	        (zhuyuanzhenliaofei  	        )};
+//	if(bencidabingleiji  			   !=null){treatmentRecord.setBencidabingleiji              (bencidabingleiji  			)};
+//	if(weiguifeiyong  		           !=null){treatmentRecord.setWeiguifeiyong  		        (weiguifeiyong  		        )};
+//	if(gerenfuxian  			       !=null){treatmentRecord.setGerenfuxian  			        (gerenfuxian  			    )};
+//	if(jiesuanren  			           !=null){treatmentRecord.setJiesuanren  			        (jiesuanren  			        )};
+//	if(zhifuduixiang  		           !=null){treatmentRecord.setZhifuduixiang  		        (zhifuduixiang  		        )};
+//	if(shifoujishijiesuan  	           !=null){treatmentRecord.setShifoujishijiesuan  	        (shifoujishijiesuan  	        )};
+//	if(jiuzhenbianhao  		           !=null){treatmentRecord.setJiuzhenbianhao  		        (jiuzhenbianhao  		        )};
+//	if(dabingbaoxianqifuxian           !=null){treatmentRecord.setDabingbaoxianqifuxian         (dabingbaoxianqifuxian        )};
+//	if(dabingbaoxianzhifu  	           !=null){treatmentRecord.setDabingbaoxianzhifu  	        (dabingbaoxianzhifu  	        )};
+//	if(weibanzhuanzhenkoujianfeiyong   !=null){treatmentRecord.setWeibanzhuanzhenkoujianfeiyong (weibanzhuanzhenkoujianfeiyong)};
+//	if(dangnianduzhuyuancishu  	       !=null){treatmentRecord.setDangnianduzhuyuancishu  	    (dangnianduzhuyuancishu  	    )};
+//	if(dianhua 					       !=null){treatmentRecord.setDianhua 					    (dianhua 					    )};
+//	if(zhifuren  					   !=null){treatmentRecord.setZhifuren  				    (zhifuren  					)};
+//	if(zhifushijian  				   !=null){treatmentRecord.setZhifushijian  			    (zhifushijian  				)};
+//	if(baoxiangongshi  			       !=null){treatmentRecord.setBaoxiangongshi  			    (baoxiangongshi  			    )};
+
+}

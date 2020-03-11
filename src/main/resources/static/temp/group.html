@@ -1,0 +1,231 @@
+<div class="easyui-layout" data-options="fit:true">
+    <!-- Begin of toolbar -->
+    <div id="group-toolbar-2">
+        <div class="wu-toolbar-button">
+            <a href="#" class="easyui-linkbutton" iconCls="icon-add" onclick="openAdd_group()" plain="true">添加</a>
+            <a href="#" class="easyui-linkbutton" iconCls="icon-edit" onclick="openEdit_group()" plain="true">修改</a>
+            <a href="#" class="easyui-linkbutton" iconCls="icon-remove" onclick="remove_group()" plain="true">删除</a>
+            <a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="cancel_group()" plain="true">取消</a>
+            <a href="#" class="easyui-linkbutton" iconCls="icon-reload" onclick="reload_group()" plain="true">刷新</a>
+        </div>
+    </div>
+    <!-- End of toolbar -->
+    <table id="group-datagrid-2" class="easyui-treegrid" toolbar="#group-toolbar-2"></table>
+</div>
+<!-- Begin of easyui-dialog -->
+<div id="group-dialog-2" class="easyui-dialog" data-options="closed:true,iconCls:'icon-save'" style="width:400px; padding:10px;">
+	<form id="group-form-2" method="post">
+        <table>
+            <tr>
+                <td width="60" align="right">父节点:</td>
+                <td><input id = "groupParentId" type="text" name="groupParentId" class="wu-text" /></td>
+            </tr>
+            <tr>
+                <td align="right">组织ID:</td>
+                <td><input id = "groupId" type="text" name="groupId" class="wu-text" /></td>
+            </tr>
+            <tr>
+                <td align="right">组织名称:</td>
+                <td><input id = "groupName" type="text" name="groupName" class="wu-text" /></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<!-- End of easyui-dialog -->
+<script type="text/javascript">
+
+	function reload_group(){
+		$('#group-datagrid-2').treegrid('reload');
+	}
+	/**
+	* Name 添加记录
+	*/
+	function add_group(){
+		$('#group-form-2').form('submit', {
+			url:'jkx/group/addGroup',
+			success:function(data){
+				data = eval( '('+data+')' );  
+				if(data.state){
+					$.messager.alert('信息提示',data.message,'info');
+					$('#group-dialog-2').dialog('close');
+					reload_group();
+				}
+				else
+				{
+					$.messager.alert('信息提示',data.message,'info');
+				}
+			}
+		});
+	}
+	
+	/**
+	* Name 修改记录
+	*/
+	function edit_group(){
+		$('#group-form-2').form('submit', {
+			url:'',
+			success:function(data){
+				if(data){
+					$.messager.alert('信息提示','提交成功！','info');
+					$('#group-dialog-2').dialog('close');
+				}
+				else
+				{
+					$.messager.alert('信息提示','提交失败！','info');
+				}
+			}
+		});
+	}
+	
+	/**
+	* Name 删除记录
+	*/
+	function remove_group(){
+		$.messager.confirm('信息提示','确定要删除该记录？', function(result){
+			if(result){
+				var items = $('#group-datagrid-2').datagrid('getSelections');
+				var ids = [];
+				$(items).each(function(){
+					ids.push(this.groupId);	
+				});
+				if(ids.length<1){
+					$.messager.alert('信息提示','至少选择一条记录','info');
+					return;
+				}
+				$.ajax({
+					url:'jkx/group/deleteGroup',
+					data:{groupId:ids[0]},
+					dataType: 'json',
+					type: 'post',
+					success:function(data){
+						if(data.state){
+							$.messager.alert('信息提示','删除成功！',data.message);		
+							reload_group();
+						}
+						else
+						{
+							$.messager.alert('信息提示','删除失败！',data.message);		
+						}
+					}	
+				},'post');
+			}	
+		});
+	}
+	
+	/**
+	* Name 打开添加窗口
+	*/
+	function openAdd_group(){
+		$('#group-form-2').form('clear');
+		var item = $('#group-datagrid-2').datagrid('getSelections');
+		if(item&&item.length>0){
+			var parentGroupId = item[0].groupId;
+			/* console.log(item);
+			alert(parentGroupId);
+			alert(item); */
+			$("#groupParentId").val(parentGroupId);
+		}else{
+			$("#groupParentId").val("0");
+		}
+		$('#group-dialog-2').dialog({
+			closed: false,
+			modal:true,
+            title: "添加组织",
+            buttons: [{
+                text: '确定',
+                iconCls: 'icon-ok',
+                handler: add_group
+            }, {
+                text: '取消',
+                iconCls: 'icon-cancel',
+                handler: function () {
+                    $('#group-dialog-2').dialog('close');                    
+                }
+            }]
+        });
+	}
+	
+	/**
+	* Name 打开修改窗口
+	*/
+	function openEdit_group(){
+		$('#group-form-2').form('clear');
+		var item = $('#group-datagrid-2').datagrid('getSelected');
+		//alert(item.productid);return;
+		$.ajax({
+			url:'',
+			data:'',
+			success:function(data){
+				if(data){
+					$('#group-dialog-2').dialog('close');	
+				}
+				else{
+					//绑定值
+					$('#group-form-2').form('load', data)
+				}
+			}	
+		});
+		$('#group-dialog-2').dialog({
+			closed: false,
+			modal:true,
+            title: "修改信息",
+            buttons: [{
+                text: '确定',
+                iconCls: 'icon-ok',
+                handler: edit_group
+            }, {
+                text: '取消',
+                iconCls: 'icon-cancel',
+                handler: function () {
+                    $('#group-dialog-2').dialog('close');                    
+                }
+            }]
+        });
+	}	
+	
+	/**
+	* Name 分页过滤器
+	*/
+	function pagerFilter(data){            
+		if (typeof data.length == 'number' && typeof data.splice == 'function'){// is array                
+			data = {                   
+				total: data.length,                   
+				rows: data               
+			}            
+		}        
+		var dg = $(this);         
+		var opts = dg.datagrid('options');          
+		var pager = dg.datagrid('getPager');          
+		pager.pagination({                
+			onSelectPage:function(pageNum, pageSize){                 
+				opts.pageNumber = pageNum;                   
+				opts.pageSize = pageSize;                
+				pager.pagination('refresh',{pageNumber:pageNum,pageSize:pageSize});                  
+				dg.datagrid('loadData',data);                
+			}          
+		});           
+		if (!data.originalRows){               
+			data.originalRows = (data.rows);       
+		}         
+		var start = (opts.pageNumber-1)*parseInt(opts.pageSize);          
+		var end = start + parseInt(opts.pageSize);        
+		data.rows = (data.originalRows.slice(start, end));         
+		return data;       
+	}
+	
+	/**
+	* Name 载入数据
+	*/
+	$('#group-datagrid-2').treegrid({
+	    url:'jkx/group/listGroup',
+	    idField:'groupId',
+	    treeField:'groupName',
+	    fitColumns:true,
+	    queryParams:{parentId:0},
+	    columns:[[
+	        {field:'groupName',title:'组织名称'},
+	        {field:'creator',title:'创建人'},
+	        {field:'createTime',title:'创建时间'}
+	    ]]
+	});
+</script>

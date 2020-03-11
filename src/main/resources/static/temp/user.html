@@ -1,0 +1,373 @@
+
+<div class="easyui-layout" data-options="fit:true">
+	<!-- Begin of toolbar -->
+	<div id="user-toolbar-2">
+		<div class="wu-toolbar-button">
+			<a href="#" class="easyui-linkbutton" iconCls="icon-add" onclick="openAdd_user()" plain="true">添加</a> 
+			<a href="#" class="easyui-linkbutton" iconCls="icon-edit" onclick="openEdit_user()" plain="true">修改</a> 
+			<a href="#" class="easyui-linkbutton" iconCls="icon-remove" onclick="remove_user()" plain="true">删除</a> 
+			<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="cancel_user()" plain="true">取消</a> 
+			<a href="#" class="easyui-linkbutton" iconCls="icon-reload" onclick="reload_user()" plain="true">刷新</a>
+		</div>
+		<form id="user-form">
+			<div class="wu-toolbar-search">
+				<label>起始时间：</label><input id="startTime" class="easyui-datebox"
+					style="width: 100px"> <label>结束时间：</label><input
+					id="endTime" class="easyui-datebox" style="width: 100px"> <label>用户组：</label>
+				<select id="userCategory" class="easyui-combobox" panelHeight="auto"
+					style="width: 100px">
+					<option value="0">选择用户组</option>
+					<option value="1">黄钻</option>
+					<option value="2">红钻</option>
+					<option value="3">蓝钻</option>
+				</select> <label>关键词：</label><input class="wu-text" style="width: 100px">
+				<a href="#" class="easyui-linkbutton" iconCls="icon-search"
+					onclick="search_user()" plain="true">开始检索</a>
+			</div>
+		</form>
+	</div>
+	<table id="user-datagrid-2" class="easyui-datagrid"></table>
+</div>
+
+<div id="user-dialog-2" class="easyui-dialog"
+	data-options="closed:true,iconCls:'icon-save'"
+	style="width: 400px; padding: 10px;">
+	<form id="user-form-2" method="post">
+		<table>
+			<tr>
+				<td width="60" align="right">姓 名:</td>
+				<td><input type="text" name="userName" class="wu-text" /></td>
+			</tr>
+			<tr>
+				<td align="right">用户名:</td>
+				<td><input type="text" name="loginName" class="wu-text" /></td>
+			</tr>
+			<tr>
+				<td align="right">手机:</td>
+				<td><input type="text" name="telephone" class="wu-text" /></td>
+			</tr>
+			<tr>
+				<td align="right">座机:</td>
+				<td><input type="text" name="phone" class="wu-text" /></td>
+			</tr>
+			<tr>
+				<td align="right">所属组织:</td>
+				<td><input id="user-cc" name="groupId"
+					class="easyui-combotree wu-text" /></td>
+			</tr>
+		</table>
+	</form>
+</div>
+
+<div id="user-dialog-position" class="easyui-dialog"
+	data-options="closed:true,iconCls:'icon-save'"
+	style="width: 400px; padding: 10px;">
+	<form id="patrol_position-form" method="post"  enctype="multipart/form-data">
+		<table>
+			<tr>
+				<td><input id="userId" type="hidden" name="userId" value="" class="wu-text" /></td>
+			</tr>
+			<tr>
+				<td align="right">指派岗位:</td>
+				<td><input id="patrol_position_combotree" name="positionIds"
+					class="easyui-combotree wu-text" /></td>
+			</tr>
+		</table>
+	</form>
+</div>
+
+<script type="text/javascript">
+	function search_user() {
+		$("#user-form").serialize();
+	}
+	/**
+	 * 重新加载
+	 */
+	function reload_user() {
+		$('#user-datagrid-2').datagrid('reload',{url: 'user/listUser'});
+	}
+	/**
+	 * Name 添加记录
+	 */
+	function add_user() {
+		$('#user-form-2').form('submit', {
+			url : 'jkx/user/addUser',
+			success : function(data) {
+				data = eval( '('+data+')' );  
+				if (data.state) {
+					$.messager.alert('信息提示',  data.message);
+					$('#user-dialog-2').dialog('close');
+					reload_user();
+				} else {
+					$.messager.alert('信息提示',  data.message);
+				}
+			}
+		});
+	}
+
+	/**
+	 * Name 修改记录
+	 */
+	function edit_user() {
+		$('#user-form-2').form('submit', {
+			url : 'jkx/user/editUser',
+			success : function(data) {
+				if (data) {
+					$.messager.alert('信息提示', '提交成功！', 'info');
+					$('#user-dialog-2').dialog('close');
+				} else {
+					$.messager.alert('信息提示', '提交失败！', 'info');
+				}
+			}
+		});
+	}
+
+	/**
+	 * Name 删除记录
+	 */
+	function remove_user() {
+		$.messager.confirm('信息提示', '确定要删除该记录？', function(result) {
+			if (result) {
+				var items = $('#user-datagrid-2').datagrid('getSelections');
+				var ids = '';
+				$(items).each(function() {
+					ids = ids+','+this.userId;
+				});
+				$.ajax({
+					url : 'jkx/user/deleteUser',
+					data : {ids:ids},
+					dataType: 'json',
+					type: 'post',
+					success : function(data) {
+						if (data.state) {
+							$.messager.alert('信息提示', data.message);
+							$('#user-dialog-2').dialog('close');
+							reload_user();
+						} else {
+							$.messager.alert('信息提示', data.message);
+						}
+					}
+				});
+			}
+		});
+	}
+
+	/**
+	 * Name 打开添加窗口
+	 */
+	function openAdd_user() {
+		$('#user-cc').combotree({
+			url : 'jkx/group/listGroup4ComboTree',
+			required : true,
+			method : 'post',
+			checkbox : true
+		});
+		$('#user-form-2').form('clear');
+		$('#user-dialog-2').dialog({
+			closed : false,
+			modal : true,
+			title : "添加信息",
+			buttons : [ {
+				text : '确定',
+				iconCls : 'icon-ok',
+				handler : add_user
+			}, {
+				text : '取消',
+				iconCls : 'icon-cancel',
+				handler : function() {
+					$('#user-dialog-2').dialog('close');
+				}
+			} ],
+			onClose: function () {
+                //解决弹出窗口关闭后，验证消息还显示在最上面
+                $('.tooltip').hide();
+            }
+		});
+	}
+
+	/**
+	 * Name 打开修改窗口
+	 */
+	function openEdit_user() {
+		$('#user-form-2').form('clear');
+		var item = $('#user-datagrid-2').datagrid('getSelected');
+
+		$.ajax({
+			url : 'jkx/usre/userId/' + item.userId,
+			success : function(data) {
+				if (data) {
+					$('#user-dialog-2').dialog('close');
+				} else {
+					//绑定值
+					$('#user-form-2').form('load', data)
+				}
+			}
+		});
+		$('#user-dialog-2').dialog({
+			closed : false,
+			modal : true,
+			title : "修改信息",
+			buttons : [ {
+				text : '确定',
+				iconCls : 'icon-ok',
+				handler : edit_user
+			}, {
+				text : '取消',
+				iconCls : 'icon-cancel',
+				handler : function() {
+					$('#user-dialog-2').dialog('close');
+				}
+			} ]
+		});
+	}
+	/**
+	 * Name 分页过滤器
+	 */
+	function pagerFilter(data) {
+		if (typeof data.length == 'number' && typeof data.splice == 'function') {// is array                
+			data = {
+				total : data.length,
+				rows : data
+			}
+		}
+		var dg = $(this);
+		var opts = dg.datagrid('options');
+		var pager = dg.datagrid('getPager');
+		pager.pagination({
+			onSelectPage : function(pageNum, pageSize) {
+				opts.pageNumber = pageNum;
+				opts.pageSize = pageSize;
+				pager.pagination('refresh', {
+					pageNumber : pageNum,
+					pageSize : pageSize
+				});
+				dg.datagrid('loadData', data);
+			}
+		});
+		if (!data.originalRows) {
+			data.originalRows = (data.rows);
+		}
+		var start = (opts.pageNumber - 1) * parseInt(opts.pageSize);
+		var end = start + parseInt(opts.pageSize);
+		data.rows = (data.originalRows.slice(start, end));
+		return data;
+	}
+	
+	/**
+		执行指定岗位的操作.
+	*/
+	function specify(){
+		$('#patrol_position-form').form('submit', {
+			url : 'jkx/position/specifyUserPosition',
+			success : function(data) {
+				data = eval( '('+data+')' );  
+				if (data.state) {
+					$.messager.alert('信息提示',  data.message);
+					$('#user-dialog-position').dialog('close');
+					reload_user();
+				} else {
+					$.messager.alert('信息提示',  data.message);
+				}
+			}
+		});
+	}
+	/**
+	 * 指定岗位
+	 */
+	function specifyPosition(userId){
+		$('#patrol_position_combotree').combotree({
+			url : 'jkx/position/listPosition4ComboTree',
+			queryParams: {'userId': userId},
+			required : true,
+			method : 'post',
+			multiple : true,
+			onBeforeLoad: function(node,param){
+				param.userId = userId;
+			}
+		});
+		$('#patrol_position-form').form('clear');
+		$("#userId").val(userId);
+		$('#user-dialog-position').dialog({
+			closed : false,
+			modal : true,
+			title : "指定人员岗位",
+			buttons : [ {
+				text : '确定',
+				iconCls : 'icon-ok',
+				handler : specify
+			}, {
+				text : '取消',
+				iconCls : 'icon-cancel',
+				handler : function() {
+					$('#user-dialog-position').dialog('close');
+				}
+			} ],
+			onClose: function () {
+                //解决弹出窗口关闭后，验证消息还显示在最上面
+                //$('.tooltip').hide();
+            }
+		});
+		
+	}
+	/**
+	 * 载入数据
+	 */
+	 
+	$(function() {
+		$('#user-datagrid-2').datagrid({
+			url : 'jkx/user/listUser',
+			loadFilter : pagerFilter,
+			rownumbers : true,
+			singleSelect : false,
+			pageSize : 20,
+			pagination : true,
+			multiSort : true,
+			fitColumns : true,
+			fit : true,
+			columns : [ [ {
+				checkbox : true
+			}, {
+				field : 'loginName',
+				title : '登录名',
+				width : 80,
+				sortable : true
+			}, {
+				field : 'userName',
+				title : '用户姓名',
+				width : 50
+			}, {
+				field : 'telephone',
+				title : '手机号码',
+				width : 100
+			}, {
+				field : 'phone',
+				title : '座机',
+				width : 100
+			}, {
+				field : 'groupName',
+				title : '所属组织',
+				width : 100
+			}, {
+				field : 'creator',
+				title : '创建人',
+				width : 100
+			}, {
+				field : 'createTime',
+				title : '创建时间'
+			},{
+				field:'岗位管理',
+				title:'岗位管理',
+				width:100,
+				formatter:function(value,row,index){
+					return "<a href='#' class='easyui-linkbutton' onclick='specifyPosition(\""+row.userId+"\")'>分配岗位</a>";
+				}
+			} ] ],onLoadSuccess: function(){
+				$('.easyui-linkbutton').linkbutton({});
+			},
+			toolbar: '#user-toolbar-2',
+			onClickRow: function(index,row){
+				$("#user-datagrid-2").datagrid("unselectRow",index);
+			}
+		})
+	});
+</script>

@@ -1,0 +1,191 @@
+<!-- 列表展示 -->
+<div class="easyui-layout" data-options="fit:true">
+	<!-- Begin of toolbar -->
+    <div id="execute-patrol-toolbar-2">
+        <div class="wu-toolbar-button">
+            <a href="#" class="easyui-linkbutton" iconCls="icon-reload" onclick="reload_receivedPatrol()" plain="true">刷新</a>
+        </div>
+    </div>
+	<table id="receivedPatrol-datagrid-2" class="easyui-datagrid"></table>
+</div>
+<!-- 调查结果上传界面 -->
+<div id="execute-patrol" class="easyui-dialog"
+	data-options="closed:true,iconCls:'icon-save'"
+	style="width: 400px; padding: 10px;">
+	<form id="execute-patrol-form" method="post"  enctype="multipart/form-data">
+		<table>
+			<tr>
+				<td><input id="patrolId2" type="hidden" name="patrolId" value="" class="wu-text" /></td>
+			</tr>
+			<tr>
+				<td align="right">调查结果描述:</td>
+				<td><textarea id="execute_patrol_description"  name="executeDescription" rows=5 cols=40></textarea></td>
+			</tr>
+			<tr>
+				<td align="right">附件:</td>
+				<td><input id="execute_patrol_attachment"  name="attachment"  multiple="multiple" type="file"/></td>
+			</tr>
+		</table>
+	</form>
+</div>
+<script type="text/javascript">
+	/**
+	 * 重新加载
+	 */
+	function reload_receivedPatrol() {
+		$('#receivedPatrol-datagrid-2').datagrid('reload',{url: 'jkx/patrol/listreceivedPatrol'});
+	}
+	/**
+	* 执行巡查结果附件上传
+	*
+	*/
+	function uploadExecutePatrol(){
+		$('#execute-patrol-form').form('submit', {
+			url : 'jkx/patrol/execute',
+			success : function(data) {
+				data = eval( '('+data+')' );  
+				if (data.state) {
+					$.messager.alert('信息提示',  data.message);
+					$('#execute-patrol').dialog('close');
+					reload_receivedPatrol();
+				} else {
+					$.messager.alert('信息提示',  data.message);
+				}
+			}
+		});
+	}
+	
+	/**
+	*展示巡查结果上传界面
+	*/
+	function executePatrol(patrolId){
+		$('#execute-patrol-form').form('clear');
+		$("#patrolId2").val(patrolId);
+		$('#execute-patrol').dialog({
+			closed : false,
+			modal : true,
+			title : "执行巡查任务",
+			buttons : [ {
+				text : '确定',
+				iconCls : 'icon-ok',
+				handler : uploadExecutePatrol
+			}, {
+				text : '取消',
+				iconCls : 'icon-cancel',
+				handler : function() {
+					$('#execute-patrol').dialog('close');
+				}
+			} ],
+			onClose: function () {
+                //解决弹出窗口关闭后，验证消息还显示在最上面
+                //$('.tooltip').hide();
+            }
+		});
+	}
+
+	
+	/**
+	 * Name 载入数据
+	 */
+	 
+	$(function() {
+		$('#receivedPatrol-datagrid-2').datagrid({
+			url : 'jkx/patrol/listreceivedPatrol',
+			loadFilter : pagerFilter,
+			rownumbers : true,
+			singleSelect : false,
+			pageSize : 20,
+			pagination : true,
+			multiSort : true,
+			fitColumns : true,
+			fit : true,
+			nowrap:false,
+			columns : [ [ {
+				checkbox : true
+			}, {
+				field : 'treatmentNumber',
+				title : '就诊编号',
+				width : 100
+			}, {
+				field : 'createTime',
+				title : '发起时间',
+				width : 100
+			}, {
+				field : 'creator',
+				title : '发起人',
+				width : 100
+			}, {
+				field : 'status',
+				title : '当前状态',
+				width : 100,
+				formatter : function(value, row, index) {
+					if(row.status == 1){
+						var btn = "<span>待执行</span>"
+						return btn;
+					}else if(row.status == 2){
+						var btn = "<span>已执行</span>";
+						return btn;
+					}else if(row.status == 3){
+						return "<span>已结案</span>";
+					}else{
+						return "<span color='red'>数据异常</span>";
+					}
+				}
+			}, {
+				field : 'nature',
+				title : '结论',
+				width : 100,
+				formatter : function(value, row, index) {
+					if(row.nature == 1){
+						return "阳性";
+					}else if(row.nature == 0){
+						return "阴性";
+					}else{
+						return "<span color='red'>未结案</span>";
+					}
+				}
+			}, {
+				field : 'description',
+				title : '发起原因',
+				width : 100
+			},{
+				field:'executeDescription',
+				title:'调查意见',
+				width:100
+			},{
+				field:'updator',
+				title:'执行人',
+				width:60
+			},{
+				field:'updateTime',
+				title:'执行时间',
+				width:120
+			},{
+				field:'发起资料',
+				title:'发起资料',
+				width:60,
+				formatter:function(value,row,index){
+					return "<a href='temp/patrolAttachment.html?patrolId="+row.patrolId+"&source=0' class='easyui-linkbutton' target='view_window'>查看</a>";
+				}
+			},{
+				field:'巡查资料',
+				title:'巡查资料',
+				width:60,
+				formatter:function(value,row,index){
+					if(row.status != 1){
+						return "<a href='temp/patrolAttachment.html?patrolId="+row.patrolId+"&source=1' class='easyui-linkbutton' target='view_window'>查看</a>";
+					}else if(row.status == 1){
+						return "<a href='#' class='easyui-linkbutton' onclick='executePatrol(\""+row.patrolId+"\")'>上传结果</a>";
+					}
+				}
+			} ] ],
+			toolbar: '#execute-patrol-toolbar-2',
+			onLoadSuccess: function(){
+				$('.easyui-linkbutton').linkbutton({});
+			},
+			onClickRow: function(index,row){
+				$("#receivedPatrol-datagrid-2").datagrid("unselectRow",index);
+			}
+		})
+	});
+</script>

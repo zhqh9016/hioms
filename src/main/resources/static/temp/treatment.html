@@ -1,0 +1,365 @@
+
+<div class="easyui-layout" data-options="fit:true">
+    <!-- Begin of toolbar -->
+    <div id="treatment-toolbar-2">
+        <div class="wu-toolbar-button">
+           <!--  <a href="#" class="easyui-linkbutton" iconCls="icon-add" onclick="openAdd_treatment()" plain="true">添加</a>
+            <a href="#" class="easyui-linkbutton" iconCls="icon-edit" onclick="openEdit_treatment()" plain="true">修改</a>
+            <a href="#" class="easyui-linkbutton" iconCls="icon-remove" onclick="remove_treatment()" plain="true">删除</a> -->
+            <a href="#" class="easyui-linkbutton" iconCls="icon-reload" onclick="reload_treatment()" plain="true">刷新</a>
+            <a href="#" class="easyui-linkbutton" iconCls="icon-add" onclick="import_treatment()" plain="true">结算信息导入</a>
+        </div>
+        <div class="treatment-toolbar-search">
+        	<form id="treatmentSearchForm">
+	           <!--  <label>起始时间：</label><input id="startTime" class="easyui-datebox" style="width:100px">
+	            <label>结束时间：</label><input id="endTime" class="easyui-datebox" style="width:100px"> -->
+	            <label>统筹区：</label>
+	            <select id="areas" class="easyui-combotree" name="groupIds" style="width:100px" data-options="panelWidth:'200',panelHeight:'auto',url:'jkx/group/listAreas4ComboTree',multiple:true,checkbox:true">
+	            </select>
+	            <label>身份证号：</label><input name="idCard" class="wu-text" style="width:100px">
+	            <label>就诊编号：</label><input name="treatmentNumber" class="wu-text" style="width:100px">
+	            <label>社保卡号：</label><input name="socialCard" class="wu-text" style="width:100px">
+	            <a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="treatment_search()">开始检索</a>
+            </form>
+        </div>
+    </div>
+    <!-- End of toolbar -->
+    <table id="treatment-datagrid-2" class="easyui-datagrid" style="OVERFLOW:auto" toolbar="#treatment-toolbar-2"></table>
+</div>
+<!-- Begin of easyui-dialog -->
+<div id="view-patrol-dialog" class="easyui-dialog"   style="width:800px;height:500px">
+</div>
+<div id="treatment-dialog-2" class="easyui-dialog" data-options="closed:true,iconCls:'icon-save'" style="width:400px; padding:10px;">
+	<form id="treatment-form-2" method="post">
+        <table>
+            <tr>
+                <td width="60" align="right">姓 名:</td>
+                <td><input type="text" name="name" class="wu-text" /></td>
+            </tr>
+            <tr>
+                <td align="right">邮 箱:</td>
+                <td><input type="text" name="email" class="wu-text" /></td>
+            </tr>
+            <tr>
+                <td align="right">主 题:</td>
+                <td><input type="text" name="subject" class="wu-text" /></td>
+            </tr>
+            <tr>
+                <td valign="top" align="right">内 容:</td>
+                <td><textarea name="content" rows="6" class="wu-textarea" style="width:260px"></textarea></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<div id="treatment-patrol" class="easyui-dialog"
+	data-options="closed:true,iconCls:'icon-save'"
+	style="width: 400px; padding: 10px;">
+	<form id="treatment-patrol-form" method="post"  enctype="multipart/form-data">
+		<table>
+			<tr>
+				<td width="60" align="right">就诊编号:</td>
+				<td><input id="treatmentNumber2" type="text" name="treatmentNumber" value="" class="wu-text" /></td>
+			</tr>
+			<tr>
+				<td align="right">指派岗位:</td>
+				<td><input id="patrol_position_tree" name="trusteePositionId"
+					class="easyui-combotree wu-text" /></td>
+			</tr>
+			<tr>
+				<td align="right">调查原因:</td>
+				<td><textarea id="patrol_description"  name="description" rows=5 cols=40></textarea></td>
+			</tr>
+			<tr>
+				<td align="right">附件:</td>
+				<td><input id="patrol_attachment"  name="attachment"  multiple="multiple" type="file"/></td>
+			</tr>
+		</table>
+	</form>
+</div>
+<div id="treatment-patrol-import" class="easyui-dialog"
+	data-options="closed:true,iconCls:'icon-save'"
+	style="width: 400px; padding: 10px;">
+	<form id="treatment-patrol-import-form" method="post"  enctype="multipart/form-data">
+		<table>
+			<tr>
+				<td align="right">统筹区:</td>
+				<td><select id="groupId" class="easyui-combotree easyui-validatebox" name="groupId" style="width:100px" data-options="panelWidth:'200',panelHeight:'auto',url:'jkx/group/listAreas4ComboTree',multiple:false,checkbox:true">
+	            </select></td>
+			</tr>
+			<tr>
+				<td align="right">就诊信息:</td>
+				<td><input id="treatment_patrol_import_file"  name="import_file"  multiple="multiple" type="file"/></td>
+			</tr>
+		</table>
+	</form>
+</div>
+<!-- End of easyui-dialog -->
+<script type="text/javascript">
+	(function($){  
+	    $.fn.serializeJson=function(){  
+	        var serializeObj={};  
+	        var array=this.serializeArray();  
+	        var str=this.serialize();  
+	        $(array).each(function(){  
+	            if(serializeObj[this.name]){  
+	                if($.isArray(serializeObj[this.name])){  
+	                    serializeObj[this.name].push(this.value);  
+	                }else{  
+	                    serializeObj[this.name]=[serializeObj[this.name],this.value];  
+	                }  
+	            }else{  
+	                serializeObj[this.name]=this.value;   
+	            }  
+	        });  
+	        return serializeObj;  
+	    };  
+	})(jQuery);
+	$(function(){
+		$('#view-patrol-dialog').dialog({    
+	        closed: true,
+	        cache: false,    
+	        href: 'temp/patrolAttachment.html',    
+	        modal: false
+	    });
+	});
+	
+	
+	/**
+	*	根据查询条件查询
+	*/
+	function treatment_search(){
+		var param = $("#treatmentSearchForm").serializeJson();
+		if(param && param.groupIds){
+			var idsStr = "";
+			var ids = param.groupIds;
+			if(ids instanceof Array){
+				ids.forEach(function(e){
+					idsStr=idsStr+e+",";
+				});
+				if(idsStr.endsWith(",")){
+					idsStr = idsStr.substring(0,idsStr.length-1);
+				}
+				param.groupIds = idsStr;
+			}
+		}
+		$('#treatment-datagrid-2').datagrid('load',param);
+	}
+
+	/**
+	 * 执行上传就诊信息
+	 */
+	function importTreatment(){
+		$('#treatment-patrol-import-form').form('submit', {
+			url : 'jkx/treatment/importTreatment',
+			success : function(data) {
+				data = eval( '('+data+')' );  
+				if (data.state) {
+					$.messager.alert('信息提示',  data.message);
+					$('#treatment-patrol-import').dialog('close');
+					reload_treatment()
+				} else {
+					$.messager.alert('信息提示',  data.message);
+					$('#treatment-patrol-import').dialog('close');
+				}
+			}
+		});
+	}
+	/**
+	 * 上传结算信息
+	 */
+	function import_treatment(){
+		$('#treatment-patrol-import').dialog({
+			closed : false,
+			modal : true,
+			title : "上传就诊信息",
+			buttons : [ {
+				text : '确定',
+				iconCls : 'icon-ok',
+				handler : importTreatment
+			}, {
+				text : '取消',
+				iconCls : 'icon-cancel',
+				handler : function() {
+					$('#treatment-patrol-import').dialog('close');
+				}
+			} ],
+			onClose: function () {
+                //解决弹出窗口关闭后，验证消息还显示在最上面
+                //$('.tooltip').hide();
+            }
+		});
+	}
+
+	/**
+	*	重新加载表格
+	*/
+	function reload_treatment(){
+		$('#treatment-datagrid-2').datagrid('reload');
+	}
+	/**
+	*查看巡查附件
+	*/
+	function viewPatrolAttachment(patrolId){
+		$('#view-patrol-dialog').dialog({
+			closed: false,
+			modal:true,
+            title: "巡查附件"
+        });
+	}
+	
+	function launch(){
+		
+		$('#treatment-patrol-form').form('submit', {
+			url : 'jkx/patrol/launchPatrol',
+			success : function(data) {
+				data = eval( '('+data+')' );  
+				if (data.state) {
+					$.messager.alert('信息提示',  data.message);
+					$('#treatment-patrol').dialog('close');
+					reload_treatment()
+				} else {
+					$.messager.alert('信息提示',  data.message);
+				}
+			}
+		});
+		
+	}
+	
+	/**
+	发起巡查
+	*/
+	function launchPatrol(treatmentNumber){
+		$('#patrol_position_tree').combotree({
+			url : 'jkx/position/listPosition4ComboTree',
+			required : true,
+			method : 'post',
+			checkbox : true
+		});
+		$('#treatment-patrol-form').form('clear');
+		$("#treatmentNumber2").val(treatmentNumber);
+		$('#treatment-patrol').dialog({
+			closed : false,
+			modal : true,
+			title : "指派巡查任务",
+			buttons : [ {
+				text : '确定',
+				iconCls : 'icon-ok',
+				handler : launch
+			}, {
+				text : '取消',
+				iconCls : 'icon-cancel',
+				handler : function() {
+					$('#treatment-patrol').dialog('close');
+				}
+			} ],
+			onClose: function () {
+                //解决弹出窗口关闭后，验证消息还显示在最上面
+                //$('.tooltip').hide();
+            }
+		});
+		
+	}
+	
+	/**
+	* Name 载入数据
+	*/
+	$('#treatment-datagrid-2').datagrid({
+		url:'jkx/treatment/findTreatment',
+		loadFilter:pagerFilter,		
+		rownumbers:true,
+		singleSelect:false,
+		pageSize:20,           
+		pagination:true,
+		multiSort:true,
+		
+		checkOnSelect:false,
+		scrollOnSelect: false,
+		fit:true,
+		nowrap:false,
+		columns:[[
+			{ checkbox:true},
+			{ field:'groupName',title:'统筹区',width:50},
+			{ field:'gerenbianhao',title:'个人编号',width:50},
+			{ field:'shenfenzheng',title:'身份证',width:50},
+			{ field:'xingming',title:'姓名',width:50},
+			{ field:'xingbie',title:'性别',width:50},
+			{ field:'nianling',title:'年龄',width:50},
+			{ field:'jiaofeirenyuanleibie',title:'缴费人员类别',width:50},
+			{ field:'jigoumingcheng',title:'机构名称',width:50},
+			{ field:'zhifudidian',title:'支付地点',width:50},
+			{ field:'zhifuleibie',title:'支付类别',width:50},
+			{ field:'ruyuanshijian',title:'入院时间',width:50},
+			{ field:'chuyuanshijian',title:'出院时间',width:50},
+			{ field:'zhuyuanhao',title:'住院号',width:50},
+			{ field:'jiesuanshijian',title:'结算时间',width:50},
+			{ field:'chuyuanzhenduan',title:'出院诊断',width:50},
+			{ field:'feiyongzonge',title:'费用总额',width:50},
+			{ field:'zhengcewaizifei',title:'政策外自费',width:50},
+			{ field:'zhengceneiquanzifujine',title:'政策内全自付金额',width:50},
+			{ field:'caobiaozifujine',title:'超标自付金额',width:50},
+			{ field:'zhengceneifeiyong',title:'政策内费用',width:50},
+			{ field:'qifuxian',title:'起付线',width:50},
+			{ field:'tongchouzhifu',title:'统筹支付',width:50},
+			{ field:'dabingzhifu',title:'大病支付',width:50},
+			{ field:'zhuyuanzhenliaofei',title:'住院诊疗费',width:50},
+			{ field:'bencidabingleiji',title:'本次大病累计',width:50},
+			{ field:'weiguifeiyong',title:'违规费用',width:50},
+			{ field:'gerenfuxian',title:'个人付现',width:50},
+			{ field:'jiesuanren',title:'结算人',width:50},
+			{ field:'shifoujishijiesuan',title:'是否即时结算',width:50},
+			{ field:'jiuzhenbianhao',title:'就诊编号',width:50},
+			{ field:'dabingbaoxianqifuxian',title:'大病保险起付线',width:50},
+			{ field:'dabingbaoxianzhifu',title:'大病保险支付',width:50},
+			{ field:'weibanzhuanzhenkoujianfeiyong',title:'未办转诊扣减费用',width:50},
+			{ field:'dangnianduzhuyuancishu',title:'当年度住院次数',width:50},
+			{ field:'dianhua',title:'电话',width:50},
+			{ field:'zhifuren',title:'支付人',width:50},
+			{ field:'zhifushijian',title:'支付时间',width:50},
+			{ field:'baoxiangongshi',title:'保险公司',width:50},
+			{ field:'zhifuduixiang',title:'支付对象',width:60,formatter: function(value,row,index){
+				if(value == 1){
+					return "个人";
+				}
+				if(value == 2){
+					return "医疗机构";
+				}
+				if(value == 3){
+					return "医保机构";
+				}
+			}},
+			{ field:'patrolId',title:'巡查状态',width:220,
+				formatter: function(value,row,index){
+					//调查进度(0、未发起调查；1、待执行；2、已执行;3、已结案；)
+					if (row.patrolStatus == 0){ 
+						var btn = "<span>未发起   </span><a href='#' class='easyui-linkbutton' onclick='launchPatrol("+row.treatmentNumber+")'>发起</a>";
+						return btn;
+					} else  if(row.patrolStatus == 1){
+						return "<span>待执行</span><a href='temp/patrolAttachment.html?patrolId="+row.patrolId+"&source=0' class='easyui-linkbutton' target='view_window'>原始资料</a>";
+					}else if(row.patrolStatus == 2){
+						var btn = "<span>已执行</span><a href='temp/patrolAttachment.html?patrolId="+row.patrolId+"&source=0' class='easyui-linkbutton' target='view_window'>原始资料</a><a href='temp/patrolAttachment.html?patrolId="+row.patrolId+"&source=1' class='easyui-linkbutton' target='view_window'>巡查凭证</a>";
+						return btn;
+					}else if(row.patrolStatus == 3){
+						return "<span>已结案 </span><a href='temp/patrolAttachment.html?patrolId="+row.patrolId+"&source=0' class='easyui-linkbutton' target='view_window'>原始资料</a><a href='temp/patrolAttachment.html?patrolId="+row.patrolId+"&source=1' class='easyui-linkbutton' target='view_window'>巡查凭证</a>";
+					}else{
+						return "error";
+					}
+				}
+			},
+			{ field:'returnVisitId',title:'回访资料',width:100,
+				formatter: function(value,row,index){
+					if (row.returnVisitId){
+						return row.returnVisitId;
+					} else {
+						return '未回访';
+					}
+				}}
+		]],
+		onLoadSuccess: function(){
+			$('.easyui-linkbutton').linkbutton({});
+		},
+		onClickRow: function(index,row){
+				$("#treatment-datagrid-2").datagrid("unselectRow",index);
+		}
+	});
+</script>

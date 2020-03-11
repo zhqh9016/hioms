@@ -1,0 +1,231 @@
+<div class="easyui-layout" data-options="fit:true">
+    <!-- Begin of toolbar -->
+    <div id="position-toolbar-2">
+        <div class="wu-toolbar-button">
+            <a href="#" class="easyui-linkbutton" iconCls="icon-add" onclick="openAdd_position()" plain="true">添加</a>
+            <a href="#" class="easyui-linkbutton" iconCls="icon-edit" onclick="openEdit_position()" plain="true">修改</a>
+            <a href="#" class="easyui-linkbutton" iconCls="icon-remove" onclick="remove_position()" plain="true">删除</a>
+            <a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="cancel_position()" plain="true">取消</a>
+            <a href="#" class="easyui-linkbutton" iconCls="icon-reload" onclick="reload_position()" plain="true">刷新</a>
+        </div>
+    </div>
+    <!-- End of toolbar -->
+    <table id="position-datagrid-2" class="easyui-datagrid" toolbar="#position-toolbar-2"></table>
+</div>
+<!-- Begin of easyui-dialog -->
+<div id="position-dialog-2" class="easyui-dialog" data-options="closed:true,iconCls:'icon-save'" style="width:400px; padding:10px;">
+	<form id="position-form-2" method="post">
+        <table>
+            <tr>
+                <td width="60" align="right">岗位名称:</td>
+                <td><input type="text" name="positionName" class="wu-text" /></td>
+            </tr>
+            <tr>
+                <td align="right">所属组织:</td>
+				<td><input id="position-cc" name="groupId"
+					class="easyui-combotree wu-text" /></td>
+            </tr>
+            <tr>
+                <td valign="top" align="right">描述:</td>
+                <td><textarea name="description" rows="6" class="wu-textarea" style="width:260px"></textarea></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<!-- End of easyui-dialog -->
+<script type="text/javascript">
+
+	function reload_position(){
+		$('#position-datagrid-2').datagrid('reload');
+	}
+	/**
+	* Name 添加记录
+	*/
+	function add_position(){
+		$('#position-form-2').form('submit', {
+			url:'jkx/position/addPosition',
+			success : function(data) {
+				data = eval( '('+data+')' );  
+				if (data.state) {
+					$.messager.alert('信息提示',  data.message);
+					$('#position-dialog-2').dialog('close');
+					reload_position();
+				} else {
+					$.messager.alert('信息提示',  data.message);
+				}
+			}
+		});
+	}
+	
+	/**
+	* Name 修改记录
+	*/
+	function edit_position(){
+		$('#position-form-2').form('submit', {
+			url:'',
+			success:function(data){
+				if(data){
+					$.messager.alert('信息提示','提交成功！','info');
+					$('#position-dialog-2').dialog('close');
+				}
+				else
+				{
+					$.messager.alert('信息提示','提交失败！','info');
+				}
+			}
+		});
+	}
+	
+	/**
+	* Name 删除记录
+	*/
+	function remove_position(){
+		$.messager.confirm('信息提示','确定要删除该记录？', function(result){
+			if (result) {
+				var items = $('#position-datagrid-2').datagrid('getSelections');
+				var ids = '';
+				$(items).each(function() {
+					ids = ids+','+this.positionId;
+				});
+				$.ajax({
+					url : 'jkx/position/deletePosition',
+					data : {ids:ids},
+					dataType: 'json',
+					type: 'post',
+					success : function(data) {
+						if (data.state) {
+							$.messager.alert('信息提示', data.message);
+							$('#position-dialog-2').dialog('close');
+							reload_position();
+						} else {
+							$.messager.alert('信息提示', data.message);
+						}
+					}
+				});
+			}	
+		});
+	}
+	
+	/**
+	* Name 打开添加窗口
+	*/
+	function openAdd_position(){
+		$('#position-cc').combotree({
+			url : 'jkx/group/listGroup4ComboTree',
+			required : true,
+			method : 'post',
+			checkbox : true
+		});
+		$('#position-form-2').form('clear');
+		$('#position-dialog-2').dialog({
+			closed: false,
+			modal:true,
+            title: "添加信息",
+            buttons: [{
+                text: '确定',
+                iconCls: 'icon-ok',
+                handler: add_position
+            }, {
+                text: '取消',
+                iconCls: 'icon-cancel',
+                handler: function () {
+                    $('#position-dialog-2').dialog('close');                    
+                }
+            }],
+            onClose: function () {
+                //解决弹出窗口关闭后，验证消息还显示在最上面
+                $('.tooltip').hide();
+            }
+        });
+	}
+	
+	/**
+	* Name 打开修改窗口
+	*/
+	function openEdit_position(){
+		$('#position-form-2').form('clear');
+		var item = $('#position-datagrid-2').datagrid('getSelected');
+		//alert(item.productid);return;
+		$.ajax({
+			url:'',
+			data:'',
+			success:function(data){
+				if(data){
+					$('#position-dialog-2').dialog('close');	
+				}
+				else{
+					//绑定值
+					$('#position-form-2').form('load', data)
+				}
+			}	
+		});
+		$('#position-dialog-2').dialog({
+			closed: false,
+			modal:true,
+            title: "修改信息",
+            buttons: [{
+                text: '确定',
+                iconCls: 'icon-ok',
+                handler: edit_position
+            }, {
+                text: '取消',
+                iconCls: 'icon-cancel',
+                handler: function () {
+                    $('#position-dialog-2').dialog('close');                    
+                }
+            }]
+        });
+	}	
+	
+	/**
+	* Name 分页过滤器
+	*/
+	function pagerFilter(data){            
+		if (typeof data.length == 'number' && typeof data.splice == 'function'){// is array                
+			data = {                   
+				total: data.length,                   
+				rows: data               
+			}            
+		}        
+		var dg = $(this);         
+		var opts = dg.datagrid('options');          
+		var pager = dg.datagrid('getPager');          
+		pager.pagination({                
+			onSelectPage:function(pageNum, pageSize){                 
+				opts.pageNumber = pageNum;                   
+				opts.pageSize = pageSize;                
+				pager.pagination('refresh',{pageNumber:pageNum,pageSize:pageSize});                  
+				dg.datagrid('loadData',data);                
+			}          
+		});           
+		if (!data.originalRows){               
+			data.originalRows = (data.rows);       
+		}         
+		var start = (opts.pageNumber-1)*parseInt(opts.pageSize);          
+		var end = start + parseInt(opts.pageSize);        
+		data.rows = (data.originalRows.slice(start, end));         
+		return data;       
+	}
+	
+	/**
+	* Name 载入数据
+	*/
+	$('#position-datagrid-2').datagrid({
+		url:'jkx/position/listPosition',
+		loadFilter:pagerFilter,		
+		rownumbers:true,
+		singleSelect:false,
+		pageSize:20,           
+		pagination:true,
+		multiSort:true,
+		fitColumns:true,
+		fit:true,
+		columns:[[
+			{ checkbox:true},
+			{ field:'positionName',title:'岗位名称',width:100,sortable:true},
+			{ field:'groupName',title:'所属组织',width:180,sortable:true},
+			{ field:'creator',title:'创建者',width:100},
+			{ field:'createTime',title:'创建时间',width:100}
+		]]
+	});
+</script>

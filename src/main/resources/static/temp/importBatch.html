@@ -1,0 +1,142 @@
+
+<div class="easyui-layout" data-options="fit:true">
+    <table id="importBatch-datagrid" class="easyui-datagrid"></table>
+</div>
+<div id="importBatch-dialog" class="easyui-dialog"
+	data-options="closed:true,iconCls:'icon-save'"
+	style="width: 1100px; height: auto padding: 5px 2px; resizable:true;modal:true">
+	<table id="importBatch-detail-datagrid" class="easyui-datagrid" style="width:800px;height:350px"></table>
+	<a id="batchDetailDownload" href="" download="未上传成功明细.xls" style="display: none"></a>
+</div>
+<script type="text/javascript">
+	
+	/**
+	*	重新加载表格
+	*/
+	function reload_importBatch(){
+		$('#importBatch-datagrid').datagrid('reload');
+	}
+	
+	/**
+	*	展示上传失败明细
+	*/
+	function showDetail(batchNumber){
+		$('#importBatch-dialog').dialog({
+			closed : false,
+			modal : true,
+			title : "上传失败明细",
+			buttons : [ {
+				text : '确定',
+				iconCls : 'icon-ok',
+				handler : function(){
+					$('#importBatch-dialog').dialog('close');
+				}
+			}, {
+				text : '下载',
+				iconCls : 'icon-cancel',
+				handler : function() {
+					// TODO 此处需要提供下载功能
+					$("#batchDetailDownload").attr("href","jkx/importBatch/downloadBatchDetail?batchNumber="+batchNumber);
+					document.getElementById("batchDetailDownload").click();
+					$('#importBatch-dialog').dialog('close');
+				}
+			} ],
+			onClose: function () {
+                //解决弹出窗口关闭后，验证消息还显示在最上面
+                $('.tooltip').hide();
+            }
+		});
+		
+		$('#importBatch-detail-datagrid').datagrid({
+			url : 'jkx/importBatch/importBatchDetail',
+			loadFilter : pagerFilter,
+			rownumbers : true,
+			singleSelect : false,
+			pageSize : 20,
+			pagination : true,
+			multiSort : true,
+			fitColumns : true,
+			fit : true,
+			queryParams: {  		
+				batchNumber: batchNumber
+			} , 
+			columns : [ [ {
+				field : 'batchNumber',
+				title : '结算信息上传批次号',
+				width : 130,
+				sortable : true
+			}, {
+				field : 'treatmentNumber',
+				title : '就诊编号',
+				width : 60
+			}, {
+				field : 'idCard',
+				title : '身份证号',
+				width : 80
+			}, {
+				field : 'description',
+				title : '问题描述',
+				width : 100
+			},{
+				field : 'largeFeeOld',
+				title : '历史上传大病赔付金额',
+				width : 80
+			}
+			,{
+				field : 'largeFeeNew',
+				title : '本次上传大病赔付金额',
+				width : 80
+			}] ],
+			onLoadSuccess: function(){
+				$('.easyui-linkbutton').linkbutton({});
+			},
+			onClickRow: function(index,row){
+				$("#importBatch-detail-datagrid").datagrid("unselectRow",index);
+			}
+		})
+	}
+	
+	/**
+	* Name 载入数据
+	*/
+	$('#importBatch-datagrid').datagrid({
+		url:'jkx/importBatch/findimportBatch',
+		loadFilter:pagerFilter,		
+		rownumbers:true,
+		singleSelect:false,
+		pageSize:20,           
+		pagination:true,
+		multiSort:true,
+		fitColumns:true,
+		checkOnSelect:false,
+		scrollOnSelect: false,
+		fit:true,
+		nowrap:false,
+		columns:[[
+			{ checkbox:true},
+			{ field:'batchNumber',title:'批次号',width:130,sortable:true},
+			{ field:'creatorLoginName',title:'上传者用户名',width:100,sortable:true},
+			{ field:'creatorTrueName',title:'上传者真实姓名',width:50,sortable:true},
+			{ field:'creatorGroupName',title:'上传者所属组织',width:100},
+			{ field:'createTime',title:'上传时间',width:100},
+			{ field:'manageGroupName',title:'所属统筹区',width:50},
+			{ field:'successNum',title:'成功数',width:50},
+			{ field:'errorNum',title:'失败数',width:100,
+				formatter: function(value,row,index){
+					//调查进度(0、未发起调查；1、待执行；2、已执行;3、已结案；)
+					if (row.errorNum == 0){ 
+						return 0;
+					} else{
+						return row.errorNum + "&nbsp;|&nbsp;<a href='javascript:showDetail(\""+row.batchNumber+"\")' >失败明细</a>";
+					}
+				}
+			}
+		]],
+		onLoadSuccess: function(){
+			$('.easyui-linkbutton').linkbutton({});
+		},
+		onClickRow: function(index,row){
+				$("#importBatch-datagrid").datagrid("unselectRow",index);
+		}
+	});
+</script>

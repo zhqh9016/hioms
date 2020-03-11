@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.taikang.jkx.mapper.HiomsAgreementMapper">
+  <resultMap id="BaseResultMap" type="com.taikang.jkx.model.HiomsAgreement">
+    <id column="agreement_id" jdbcType="VARCHAR" property="agreementId" />
+    <result column="agreement_name" jdbcType="VARCHAR" property="agreementName" />
+    <result column="agreement_signtime" jdbcType="DATE" property="agreementSigntime" />
+    <result column="agreement_first_part" jdbcType="VARCHAR" property="agreementFirstPart" />
+    <result column="agreement_partb" jdbcType="VARCHAR" property="agreementPartb" />
+    <result column="agreement_starttime" jdbcType="DATE" property="agreementStarttime" />
+    <result column="agreement_endtime" jdbcType="DATE" property="agreementEndtime" />
+    <result column="agreement_responsible" jdbcType="VARCHAR" property="agreementResponsible" />
+    <result column="agreement_place" jdbcType="VARCHAR" property="agreementPlace" />
+    <result column="agreement_enclosure_id" jdbcType="VARCHAR" property="agreementEnclosureId" />
+    <result column="is_remind" jdbcType="INTEGER" property="isRemind" />
+    <result column="remind_day" jdbcType="INTEGER" property="remindDay" />
+    <result column="group_id" jdbcType="VARCHAR" property="groupId" />
+    <result column="group_name" jdbcType="VARCHAR" property="groupName" />
+    <result column="creator" jdbcType="VARCHAR" property="creator" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="valid" jdbcType="INTEGER" property="valid" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    agreement_id, agreement_name, agreement_signtime, agreement_first_part, agreement_partb, 
+    agreement_starttime, agreement_endtime, agreement_responsible, agreement_place, agreement_enclosure_id, 
+    is_remind, remind_day, group_id, group_name, creator, create_time, `valid`
+  </sql>
+  <select id="selectByExample" parameterType="com.taikang.jkx.model.HiomsAgreementExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from hioms_agreement
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from hioms_agreement
+    where agreement_id = #{agreementId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from hioms_agreement
+    where agreement_id = #{agreementId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.taikang.jkx.model.HiomsAgreementExample">
+    delete from hioms_agreement
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.taikang.jkx.model.HiomsAgreement">
+    insert into hioms_agreement (agreement_id, agreement_name, agreement_signtime, 
+      agreement_first_part, agreement_partb, agreement_starttime, 
+      agreement_endtime, agreement_responsible, agreement_place, 
+      agreement_enclosure_id, is_remind, remind_day, 
+      group_id, group_name, creator, 
+      create_time, `valid`)
+    values (#{agreementId,jdbcType=VARCHAR}, #{agreementName,jdbcType=VARCHAR}, #{agreementSigntime,jdbcType=DATE}, 
+      #{agreementFirstPart,jdbcType=VARCHAR}, #{agreementPartb,jdbcType=VARCHAR}, #{agreementStarttime,jdbcType=DATE}, 
+      #{agreementEndtime,jdbcType=DATE}, #{agreementResponsible,jdbcType=VARCHAR}, #{agreementPlace,jdbcType=VARCHAR}, 
+      #{agreementEnclosureId,jdbcType=VARCHAR}, #{isRemind,jdbcType=INTEGER}, #{remindDay,jdbcType=INTEGER}, 
+      #{groupId,jdbcType=VARCHAR}, #{groupName,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{valid,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.taikang.jkx.model.HiomsAgreement">
+    insert into hioms_agreement
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="agreementId != null">
+        agreement_id,
+      </if>
+      <if test="agreementName != null">
+        agreement_name,
+      </if>
+      <if test="agreementSigntime != null">
+        agreement_signtime,
+      </if>
+      <if test="agreementFirstPart != null">
+        agreement_first_part,
+      </if>
+      <if test="agreementPartb != null">
+        agreement_partb,
+      </if>
+      <if test="agreementStarttime != null">
+        agreement_starttime,
+      </if>
+      <if test="agreementEndtime != null">
+        agreement_endtime,
+      </if>
+      <if test="agreementResponsible != null">
+        agreement_responsible,
+      </if>
+      <if test="agreementPlace != null">
+        agreement_place,
+      </if>
+      <if test="agreementEnclosureId != null">
+        agreement_enclosure_id,
+      </if>
+      <if test="isRemind != null">
+        is_remind,
+      </if>
+      <if test="remindDay != null">
+        remind_day,
+      </if>
+      <if test="groupId != null">
+        group_id,
+      </if>
+      <if test="groupName != null">
+        group_name,
+      </if>
+      <if test="creator != null">
+        creator,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="valid != null">
+        `valid`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="agreementId != null">
+        #{agreementId,jdbcType=VARCHAR},
+      </if>
+      <if test="agreementName != null">
+        #{agreementName,jdbcType=VARCHAR},
+      </if>
+      <if test="agreementSigntime != null">
+        #{agreementSigntime,jdbcType=DATE},
+      </if>
+      <if test="agreementFirstPart != null">
+        #{agreementFirstPart,jdbcType=VARCHAR},
+      </if>
+      <if test="agreementPartb != null">
+        #{agreementPartb,jdbcType=VARCHAR},
+      </if>
+      <if test="agreementStarttime != null">
+        #{agreementStarttime,jdbcType=DATE},
+      </if>
+      <if test="agreementEndtime != null">
+        #{agreementEndtime,jdbcType=DATE},
+      </if>
+      <if test="agreementResponsible != null">
+        #{agreementResponsible,jdbcType=VARCHAR},
+      </if>
+      <if test="agreementPlace != null">
+        #{agreementPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="agreementEnclosureId != null">
+        #{agreementEnclosureId,jdbcType=VARCHAR},
+      </if>
+      <if test="isRemind != null">
+        #{isRemind,jdbcType=INTEGER},
+      </if>
+      <if test="remindDay != null">
+        #{remindDay,jdbcType=INTEGER},
+      </if>
+      <if test="groupId != null">
+        #{groupId,jdbcType=VARCHAR},
+      </if>
+      <if test="groupName != null">
+        #{groupName,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="valid != null">
+        #{valid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.taikang.jkx.model.HiomsAgreementExample" resultType="java.lang.Long">
+    select count(*) from hioms_agreement
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update hioms_agreement
+    <set>
+      <if test="record.agreementId != null">
+        agreement_id = #{record.agreementId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.agreementName != null">
+        agreement_name = #{record.agreementName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.agreementSigntime != null">
+        agreement_signtime = #{record.agreementSigntime,jdbcType=DATE},
+      </if>
+      <if test="record.agreementFirstPart != null">
+        agreement_first_part = #{record.agreementFirstPart,jdbcType=VARCHAR},
+      </if>
+      <if test="record.agreementPartb != null">
+        agreement_partb = #{record.agreementPartb,jdbcType=VARCHAR},
+      </if>
+      <if test="record.agreementStarttime != null">
+        agreement_starttime = #{record.agreementStarttime,jdbcType=DATE},
+      </if>
+      <if test="record.agreementEndtime != null">
+        agreement_endtime = #{record.agreementEndtime,jdbcType=DATE},
+      </if>
+      <if test="record.agreementResponsible != null">
+        agreement_responsible = #{record.agreementResponsible,jdbcType=VARCHAR},
+      </if>
+      <if test="record.agreementPlace != null">
+        agreement_place = #{record.agreementPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="record.agreementEnclosureId != null">
+        agreement_enclosure_id = #{record.agreementEnclosureId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isRemind != null">
+        is_remind = #{record.isRemind,jdbcType=INTEGER},
+      </if>
+      <if test="record.remindDay != null">
+        remind_day = #{record.remindDay,jdbcType=INTEGER},
+      </if>
+      <if test="record.groupId != null">
+        group_id = #{record.groupId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.groupName != null">
+        group_name = #{record.groupName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.creator != null">
+        creator = #{record.creator,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.valid != null">
+        `valid` = #{record.valid,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update hioms_agreement
+    set agreement_id = #{record.agreementId,jdbcType=VARCHAR},
+      agreement_name = #{record.agreementName,jdbcType=VARCHAR},
+      agreement_signtime = #{record.agreementSigntime,jdbcType=DATE},
+      agreement_first_part = #{record.agreementFirstPart,jdbcType=VARCHAR},
+      agreement_partb = #{record.agreementPartb,jdbcType=VARCHAR},
+      agreement_starttime = #{record.agreementStarttime,jdbcType=DATE},
+      agreement_endtime = #{record.agreementEndtime,jdbcType=DATE},
+      agreement_responsible = #{record.agreementResponsible,jdbcType=VARCHAR},
+      agreement_place = #{record.agreementPlace,jdbcType=VARCHAR},
+      agreement_enclosure_id = #{record.agreementEnclosureId,jdbcType=VARCHAR},
+      is_remind = #{record.isRemind,jdbcType=INTEGER},
+      remind_day = #{record.remindDay,jdbcType=INTEGER},
+      group_id = #{record.groupId,jdbcType=VARCHAR},
+      group_name = #{record.groupName,jdbcType=VARCHAR},
+      creator = #{record.creator,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      `valid` = #{record.valid,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.taikang.jkx.model.HiomsAgreement">
+    update hioms_agreement
+    <set>
+      <if test="agreementName != null">
+        agreement_name = #{agreementName,jdbcType=VARCHAR},
+      </if>
+      <if test="agreementSigntime != null">
+        agreement_signtime = #{agreementSigntime,jdbcType=DATE},
+      </if>
+      <if test="agreementFirstPart != null">
+        agreement_first_part = #{agreementFirstPart,jdbcType=VARCHAR},
+      </if>
+      <if test="agreementPartb != null">
+        agreement_partb = #{agreementPartb,jdbcType=VARCHAR},
+      </if>
+      <if test="agreementStarttime != null">
+        agreement_starttime = #{agreementStarttime,jdbcType=DATE},
+      </if>
+      <if test="agreementEndtime != null">
+        agreement_endtime = #{agreementEndtime,jdbcType=DATE},
+      </if>
+      <if test="agreementResponsible != null">
+        agreement_responsible = #{agreementResponsible,jdbcType=VARCHAR},
+      </if>
+      <if test="agreementPlace != null">
+        agreement_place = #{agreementPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="agreementEnclosureId != null">
+        agreement_enclosure_id = #{agreementEnclosureId,jdbcType=VARCHAR},
+      </if>
+      <if test="isRemind != null">
+        is_remind = #{isRemind,jdbcType=INTEGER},
+      </if>
+      <if test="remindDay != null">
+        remind_day = #{remindDay,jdbcType=INTEGER},
+      </if>
+      <if test="groupId != null">
+        group_id = #{groupId,jdbcType=VARCHAR},
+      </if>
+      <if test="groupName != null">
+        group_name = #{groupName,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null">
+        creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="valid != null">
+        `valid` = #{valid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where agreement_id = #{agreementId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.taikang.jkx.model.HiomsAgreement">
+    update hioms_agreement
+    set agreement_name = #{agreementName,jdbcType=VARCHAR},
+      agreement_signtime = #{agreementSigntime,jdbcType=DATE},
+      agreement_first_part = #{agreementFirstPart,jdbcType=VARCHAR},
+      agreement_partb = #{agreementPartb,jdbcType=VARCHAR},
+      agreement_starttime = #{agreementStarttime,jdbcType=DATE},
+      agreement_endtime = #{agreementEndtime,jdbcType=DATE},
+      agreement_responsible = #{agreementResponsible,jdbcType=VARCHAR},
+      agreement_place = #{agreementPlace,jdbcType=VARCHAR},
+      agreement_enclosure_id = #{agreementEnclosureId,jdbcType=VARCHAR},
+      is_remind = #{isRemind,jdbcType=INTEGER},
+      remind_day = #{remindDay,jdbcType=INTEGER},
+      group_id = #{groupId,jdbcType=VARCHAR},
+      group_name = #{groupName,jdbcType=VARCHAR},
+      creator = #{creator,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      `valid` = #{valid,jdbcType=INTEGER}
+    where agreement_id = #{agreementId,jdbcType=VARCHAR}
+  </update>
+</mapper>

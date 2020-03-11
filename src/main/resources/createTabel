@@ -1,0 +1,180 @@
+CREATE TABLE				hioms_treatment_copy` (
+`gerenbianhao`  								varchar(64) comment  "个人编号",
+`shenfenzheng`  								varchar(64) comment  "身份证号",
+`xingming`								varchar(64) comment  "姓名",
+`xingbie`  								varchar(64) comment      "性别",
+`nianling`  										varchar(64) comment  "年龄",
+`jiaofeirenyuanleibie`  										varchar(64) comment  "缴费人员类别",
+`jigoumingcheng`  								varchar(64) comment  "机构名称",
+`zhifudidian`  								varchar(64) comment      "支付地点",
+`zhifuleibie`  								varchar(64) comment      "支付类别",
+`ruyuanshijian`  								varchar(64) comment  "入院时间",
+`chuyuanshijian`  								varchar(64) comment  "出院时间",
+`zhuyuanhao`  								varchar(64) comment  "住院号",
+`jiesuanshijian`  								varchar(64) comment  "结算时间",
+`chuyuanzhenduan`  								varchar(64) comment      "出院诊断",
+`feiyongzonge`  								varchar(64) comment  "费用总额",
+`zhengcewaizifei`  								varchar(64) comment      "政策外自费",
+`zhengceneiquanzifujine`  								varchar(64) comment  "政策内全自付金额",
+`caobiaozifujine`  								varchar(64) comment      "超标自付金额",
+`zhengceneifeiyong`  								varchar(64) comment  "政策内费用",
+`qifuxian`  								varchar(64) comment  "起付线",
+`tongchouzhifu`  								varchar(64) comment  "统筹支付",
+`dabingzhifu`  								varchar(64) comment      "大病支付",
+`zhuyuanzhenliaofei`  								varchar(64) comment  "住院诊疗费",
+`bencidabingleiji`  								varchar(64) comment  "本次大病累计",
+`weiguifeiyong`  								varchar(64) comment  "违规费用",
+`gerenfuxian`  								varchar(64) comment      "个人付现",
+`jiesuanren`  								varchar(64) comment  "结算人",
+`zhifuduixiang`  								varchar(64) comment  "支付对象",
+`shifoujishijiesuan`  								varchar(64) comment  "是否即时结算",
+`jiuzhenbianhao`  								varchar(64) comment  "就诊编号",
+`dabingbaoxianqifuxian`  								varchar(64) comment  "大病保险起付线",
+`dabingbaoxianzhifu`  								varchar(64) comment  "大病保险支付",
+`weibanzhuanzhenkoujianfeiyong`  								varchar(64) comment  "未办转诊扣减费用",
+`dangnianduzhuyuancishu`  								varchar(64) comment  "当年度住院次数",
+`dianhua` 								varchar(64) comment   "电话",
+`zhifuren`  								varchar(64) comment  "支付人",
+`zhifushijian`  								varchar(64) comment  "支付时间",
+`baoxiangongshi`  								varchar(64) comment  "保险公司"        
+`patrol_id` 								varchar(64) DEFAULT NULL COMMENT '巡查ID',
+`patrol_status` int(11) DEFAULT '0' COMMENT '调查进度(0、未发起调查；1、待执行；2、已执行3、已结案；)',
+`patrol_result` int(11) DEFAULT NULL COMMENT '调查结论(0、阴性；1、阳性)',
+`return_visit_id` 								varchar(64) DEFAULT NULL COMMENT '回访ID',
+`return_visit_status` 								varchar(64) DEFAULT NULL COMMENT '回访状态(0、未回访；1、回访成功；2、未查账；3、不满意)',
+`group_id` varchar(32) DEFAULT NULL COMMENT '统筹区编码',
+`group_name` varchar(32) DEFAULT NULL COMMENT '统筹区名称',
+`valid` int(11) DEFAULT '1' COMMENT '是否有效',
+`repeat_name_num` int(11) DEFAULT '1' COMMENT '同名同姓的人的个数'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+if(!Constant.IMPORT_EXCEL_JMCX_COL1.equals(row.getCell( 0 ).getStringCellValue())){return false;}
+if(!Constant.IMPORT_EXCEL_JMCX_COL2.equals(row.getCell( 1 ).getStringCellValue())){return false;}
+if(!Constant.IMPORT_EXCEL_JMCX_COL3.equals(row.getCell( 2 ).getStringCellValue())){return false;}
+if(!Constant.IMPORT_EXCEL_JMCX_COL4.equals(row.getCell( 3 ).getStringCellValue())){return false;}
+if(!Constant.IMPORT_EXCEL_JMCX_COL5.equals(row.getCell( 4 ).getStringCellValue())){return false;}
+if(!Constant.IMPORT_EXCEL_JMCX_COL6.equals(row.getCell( 5 ).getStringCellValue())){return false;}
+if(!Constant.IMPORT_EXCEL_JMCX_COL7.equals(row.getCell( 6 ).getStringCellValue())){return false;}
+if(!Constant.IMPORT_EXCEL_JMCX_COL8.equals(row.getCell( 7 ).getStringCellValue())){return false;}
+if(!Constant.IMPORT_EXCEL_JMCX_COL9.equals(row.getCell( 8 ).getStringCellValue())){return false;}
+if(!Constant.IMPORT_EXCEL_JMCX_COL10.equals(row.getCell(9 ).getStringCellValue())){return false;}
+if(!Constant.IMPORT_EXCEL_JMCX_COL11.equals(row.getCell(10).getStringCellValue())){return false;}
+if(!Constant.IMPORT_EXCEL_JMCX_COL12.equals(row.getCell(11).getStringCellValue())){return false;}
+if(!Constant.IMPORT_EXCEL_JMCX_COL13.equals(row.getCell(12).getStringCellValue())){return false;}
+if(!Constant.IMPORT_EXCEL_JMCX_COL14.equals(row.getCell(13).getStringCellValue())){return false;}
+if(!Constant.IMPORT_EXCEL_JMCX_COL15.equals(row.getCell(14).getStringCellValue())){return false;}
+if(!Constant.IMPORT_EXCEL_JMCX_COL16.equals(row.getCell(15).getStringCellValue())){return false;}
+if(!Constant.IMPORT_EXCEL_JMCX_COL17.equals(row.getCell(16).getStringCellValue())){return false;}
+if(!Constant.IMPORT_EXCEL_JMCX_COL18.equals(row.getCell(17).getStringCellValue())){return false;}
+if(!Constant.IMPORT_EXCEL_JMCX_COL19.equals(row.getCell(18).getStringCellValue())){return false;}
+if(!Constant.IMPORT_EXCEL_JMCX_COL20.equals(row.getCell(19).getStringCellValue())){return false;}
+if(!Constant.IMPORT_EXCEL_JMCX_COL21.equals(row.getCell(20).getStringCellValue())){return false;}
+if(!Constant.IMPORT_EXCEL_JMCX_COL22.equals(row.getCell(21).getStringCellValue())){return false;}
+if(!Constant.IMPORT_EXCEL_JMCX_COL23.equals(row.getCell(22).getStringCellValue())){return false;}
+if(!Constant.IMPORT_EXCEL_JMCX_COL24.equals(row.getCell(23).getStringCellValue())){return false;}
+if(!Constant.IMPORT_EXCEL_JMCX_COL25.equals(row.getCell(24).getStringCellValue())){return false;}
+if(!Constant.IMPORT_EXCEL_JMCX_COL26.equals(row.getCell(25).getStringCellValue())){return false;}
+if(!Constant.IMPORT_EXCEL_JMCX_COL27.equals(row.getCell(26).getStringCellValue())){return false;}
+if(!Constant.IMPORT_EXCEL_JMCX_COL28.equals(row.getCell(27).getStringCellValue())){return false;}
+if(!Constant.IMPORT_EXCEL_JMCX_COL29.equals(row.getCell(28).getStringCellValue())){return false;}
+if(!Constant.IMPORT_EXCEL_JMCX_COL30.equals(row.getCell(29).getStringCellValue())){return false;}
+if(!Constant.IMPORT_EXCEL_JMCX_COL31.equals(row.getCell(30).getStringCellValue())){return false;}
+if(!Constant.IMPORT_EXCEL_JMCX_COL32.equals(row.getCell(31).getStringCellValue())){return false;}
+if(!Constant.IMPORT_EXCEL_JMCX_COL33.equals(row.getCell(32).getStringCellValue())){return false;}
+if(!Constant.IMPORT_EXCEL_JMCX_COL34.equals(row.getCell(33).getStringCellValue())){return false;}
+if(!Constant.IMPORT_EXCEL_JMCX_COL35.equals(row.getCell(34).getStringCellValue())){return false;}
+if(!Constant.IMPORT_EXCEL_JMCX_COL36.equals(row.getCell(35).getStringCellValue())){return false;}
+if(!Constant.IMPORT_EXCEL_JMCX_COL37.equals(row.getCell(36).getStringCellValue())){return false;}
+if(!Constant.IMPORT_EXCEL_JMCX_COL38.equals(row.getCell(37).getStringCellValue())){return false;}
+String gerenbianhao`  				 =  ExcelUtil.parseExcel(row.getCell(0 ));
+String shenfenzheng`  				 =  ExcelUtil.parseExcel(row.getCell(1 ));
+String xingming`						 =  ExcelUtil.parseExcel(row.getCell(2 ));
+String xingbie`  						 =  ExcelUtil.parseExcel(row.getCell(3 ));
+String nianling`  					 =  ExcelUtil.parseExcel(row.getCell(4 ));
+String jiaofeirenyuanleibie`  		 =  ExcelUtil.parseExcel(row.getCell(5 ));
+String jigoumingcheng`  				 =  ExcelUtil.parseExcel(row.getCell(6 ));
+String zhifudidian`  					 =  ExcelUtil.parseExcel(row.getCell(7 ));
+String zhifuleibie`  					 =  ExcelUtil.parseExcel(row.getCell(8 ));
+String ruyuanshijian`  				 =  ExcelUtil.parseExcel(row.getCell(9 ));
+String chuyuanshijian`  				 =  ExcelUtil.parseExcel(row.getCell(10));
+String zhuyuanhao`  					 =  ExcelUtil.parseExcel(row.getCell(11));
+String jiesuanshijian`  				 =  ExcelUtil.parseExcel(row.getCell(12));
+String chuyuanzhenduan`  				 =  ExcelUtil.parseExcel(row.getCell(13));
+String feiyongzonge`  				 =  ExcelUtil.parseExcel(row.getCell(14));
+String zhengcewaizifei`  				 =  ExcelUtil.parseExcel(row.getCell(15));
+String zhengceneiquanzifujine`  		 =  ExcelUtil.parseExcel(row.getCell(16));
+String caobiaozifujine`  				 =  ExcelUtil.parseExcel(row.getCell(17));
+String zhengceneifeiyong`  			 =  ExcelUtil.parseExcel(row.getCell(18));
+String qifuxian`  					 =  ExcelUtil.parseExcel(row.getCell(19));
+String tongchouzhifu`  				 =  ExcelUtil.parseExcel(row.getCell(20));
+String dabingzhifu`  					 =  ExcelUtil.parseExcel(row.getCell(21));
+String zhuyuanzhenliaofei`  			 =  ExcelUtil.parseExcel(row.getCell(22));
+String bencidabingleiji`  			 =  ExcelUtil.parseExcel(row.getCell(23));
+String weiguifeiyong`  				 =  ExcelUtil.parseExcel(row.getCell(24));
+String gerenfuxian`  					 =  ExcelUtil.parseExcel(row.getCell(25));
+String jiesuanren`  					 =  ExcelUtil.parseExcel(row.getCell(26));
+String zhifuduixiang`  				 =  ExcelUtil.parseExcel(row.getCell(27));
+String shifoujishijiesuan`  			 =  ExcelUtil.parseExcel(row.getCell(28));
+String jiuzhenbianhao`  				 =  ExcelUtil.parseExcel(row.getCell(29));
+String dabingbaoxianqifuxian`  		 =  ExcelUtil.parseExcel(row.getCell(30));
+String dabingbaoxianzhifu`  			 =  ExcelUtil.parseExcel(row.getCell(31));
+String weibanzhuanzhenkoujianfeiyong`  =  ExcelUtil.parseExcel(row.getCell(32));
+String dangnianduzhuyuancishu`  		 =  ExcelUtil.parseExcel(row.getCell(33));
+String dianhua` 						 =  ExcelUtil.parseExcel(row.getCell(34));
+String zhifuren`  					 =  ExcelUtil.parseExcel(row.getCell(35));
+String zhifushijian`  				 =  ExcelUtil.parseExcel(row.getCell(36));
+String baoxiangongshi`  				 =  ExcelUtil.parseExcel(row.getCell(37));     
+
+
+
+
+  				gerenbianhao			                 varchar(64) DEFAULT NULL COMMENT '个人编号',
+				shenfenzheng			                 varchar(64) DEFAULT NULL COMMENT '身份证号',
+  				xingming	 			                varchar(64) DEFAULT NULL COMMENT '姓名',
+  				xingbie	 				                varchar(64) DEFAULT NULL COMMENT '性别',
+  				nianling	 			                varchar(64) DEFAULT NULL COMMENT '年龄',
+  				jiaofeirenyuanleibie	                 varchar(64) DEFAULT NULL COMMENT '缴费人员类别',
+  				jigoumingcheng			                	 varchar(64) DEFAULT NULL COMMENT '机构名称',
+  				zhifudidian				                 varchar(64) DEFAULT NULL COMMENT '支付地点',
+  				zhifuleibie				                 varchar(64) DEFAULT NULL COMMENT '支付类别',
+  				ruyuanshijian			                	 datetime DEFAULT NULL COMMENT '入院时间',
+  				chuyuanshijian			                	 datetime DEFAULT NULL COMMENT '出院时间',
+  				zhuyuanhao				                 varchar(64) DEFAULT NULL COMMENT '住院号',
+  				jiesuanshijian			                	 datetime DEFAULT NULL COMMENT '结算时间',
+  				chuyuanzhenduan			                	 varchar(64) DEFAULT NULL COMMENT '出院诊断',
+  				feiyongzonge			                	 float(64,2) DEFAULT NULL COMMENT '费用总额',
+  				zhengcewaizifei			                	 float(64,2) DEFAULT NULL COMMENT '政策外自费',
+  				zhengceneiquanzifujine	                			 float(64,2) DEFAULT NULL COMMENT '政策内全自付金额',
+  				caobiaozifujine			                	 float(64,2) DEFAULT NULL COMMENT '超标自付金额',
+  				zhengceneifeiyong		                		 float(64,2) DEFAULT NULL COMMENT '政策内费用',
+  				qifuxian				                 float(64,2) DEFAULT NULL COMMENT '起付线',
+  				tongchouzhifu			                	 float(64,2) DEFAULT NULL COMMENT '统筹支付',
+  				dabingzhifu				                 float(64,2) DEFAULT NULL COMMENT '大病支付',
+  				zhuyuanzhenliaofei		                		 float(64,2) DEFAULT NULL COMMENT '住院诊疗费',
+  				bencidabingleiji		                		 float(64,2) DEFAULT NULL COMMENT '本次大病累计',
+  				weiguifeiyong			                	 float(64,2) DEFAULT NULL COMMENT '违规费用',
+  				gerenfuxian				                 float(64,2) DEFAULT NULL COMMENT '个人付现',
+  				jiesuanren				                 varchar(64) DEFAULT NULL COMMENT '结算人',
+  				zhifuduixiang			                	 varchar(64) DEFAULT NULL COMMENT '支付对象',
+  				shifoujishijiesuan		                		 varchar(64) DEFAULT NULL COMMENT '是否即时结算',
+  				jiuzhenbianhao			                	 varchar(64) NOT NULL COMMENT '就诊编号',
+  				dabingbaoxianqifuxian	                			 float(64,2) DEFAULT NULL COMMENT '大病保险起付线',
+  				dabingbaoxianzhifu		                		 float(64,2) DEFAULT NULL COMMENT '大病保险支付',
+  				weibanzhuanzhenkoujianfeiyong				 float(64,2) DEFAULT NULL COMMENT '未办转诊扣减费用',
+  				dangnianduzhuyuancishu				 int(64) DEFAULT NULL COMMENT '当年度住院次数',
+  				dianhua				                 varchar(64) DEFAULT NULL COMMENT '电话',
+  				zhifuren			   	              varchar(64) DEFAULT NULL COMMENT '支付人',
+  				zhifushijian		   	             	 datetime DEFAULT NULL COMMENT '支付时间',
+  				baoxiangongshi		   	             	 varchar(64) DEFAULT NULL COMMENT '保险公司',
+  				patrol_id			   	              varchar(64) DEFAULT NULL COMMENT '巡查ID',
+  				patrol_status		   	             	 int(11) DEFAULT '0' COMMENT '调查进度(0、未发起调查；1、待执行；2、已执行3、已结案；)',
+  				patrol_result		   	             	 int(11) DEFAULT NULL COMMENT '调查结论(0、阴性；1、阳性)',
+  				return_visit_id		   	             	 varchar(64) DEFAULT NULL COMMENT '回访ID',
+  				return_visit_status	   	             		 varchar(64) DEFAULT NULL COMMENT '回访状态(0、未回访；1、回访成功；2、未查账；3、不满意)',
+  				group_id			   	              varchar(32) DEFAULT NULL COMMENT '统筹区编码',
+  				group_name			   	              varchar(32) DEFAULT NULL COMMENT '统筹区名称',
+  				valid				                        int(11) DEFAULT '1' COMMENT '是否有效',
+  				repeat_name_num				           (11) DEFAULT '1' COMMENT '同名同姓的人的个数',
+  				benciqiandabingleiji		           	 float(64,2) DEFAULT NULL,
+  				dabingchongsuan				           at(64,2) DEFAULT NULL,
+  				bencidabingleiji2			            float(64,2) DEFAULT NULL,                                                 

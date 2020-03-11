@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.taikang.jkx.mapper.AwardsMapper">
+  <resultMap id="BaseResultMap" type="com.taikang.jkx.model.Awards">
+    <result column="AID" jdbcType="VARCHAR" property="aid" />
+    <result column="LOTTERYID" jdbcType="VARCHAR" property="lotteryid" />
+    <result column="award_order" jdbcType="INTEGER" property="awardOrder" />
+    <result column="award_level" jdbcType="VARCHAR" property="awardLevel" />
+    <result column="award_num" jdbcType="INTEGER" property="awardNum" />
+    <result column="award_name" jdbcType="VARCHAR" property="awardName" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    AID, LOTTERYID, award_order, award_level, award_num, award_name
+  </sql>
+  <select id="selectByExample" parameterType="com.taikang.jkx.model.AwardsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from awards
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.taikang.jkx.model.AwardsExample">
+    delete from awards
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.taikang.jkx.model.Awards">
+    insert into awards (AID, LOTTERYID, award_order, 
+      award_level, award_num, award_name
+      )
+    values (#{aid,jdbcType=VARCHAR}, #{lotteryid,jdbcType=VARCHAR}, #{awardOrder,jdbcType=INTEGER}, 
+      #{awardLevel,jdbcType=VARCHAR}, #{awardNum,jdbcType=INTEGER}, #{awardName,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.taikang.jkx.model.Awards">
+    insert into awards
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="aid != null">
+        AID,
+      </if>
+      <if test="lotteryid != null">
+        LOTTERYID,
+      </if>
+      <if test="awardOrder != null">
+        award_order,
+      </if>
+      <if test="awardLevel != null">
+        award_level,
+      </if>
+      <if test="awardNum != null">
+        award_num,
+      </if>
+      <if test="awardName != null">
+        award_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="aid != null">
+        #{aid,jdbcType=VARCHAR},
+      </if>
+      <if test="lotteryid != null">
+        #{lotteryid,jdbcType=VARCHAR},
+      </if>
+      <if test="awardOrder != null">
+        #{awardOrder,jdbcType=INTEGER},
+      </if>
+      <if test="awardLevel != null">
+        #{awardLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="awardNum != null">
+        #{awardNum,jdbcType=INTEGER},
+      </if>
+      <if test="awardName != null">
+        #{awardName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.taikang.jkx.model.AwardsExample" resultType="java.lang.Long">
+    select count(*) from awards
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update awards
+    <set>
+      <if test="record.aid != null">
+        AID = #{record.aid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lotteryid != null">
+        LOTTERYID = #{record.lotteryid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.awardOrder != null">
+        award_order = #{record.awardOrder,jdbcType=INTEGER},
+      </if>
+      <if test="record.awardLevel != null">
+        award_level = #{record.awardLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.awardNum != null">
+        award_num = #{record.awardNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.awardName != null">
+        award_name = #{record.awardName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update awards
+    set AID = #{record.aid,jdbcType=VARCHAR},
+      LOTTERYID = #{record.lotteryid,jdbcType=VARCHAR},
+      award_order = #{record.awardOrder,jdbcType=INTEGER},
+      award_level = #{record.awardLevel,jdbcType=VARCHAR},
+      award_num = #{record.awardNum,jdbcType=INTEGER},
+      award_name = #{record.awardName,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

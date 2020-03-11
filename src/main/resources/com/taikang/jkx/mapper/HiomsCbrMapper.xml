@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.taikang.jkx.mapper.HiomsCbrMapper">
+  <resultMap id="BaseResultMap" type="com.taikang.jkx.model.HiomsCbr">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="cbr_id_card" jdbcType="VARCHAR" property="cbrIdCard" />
+    <result column="cbr_socity_number" jdbcType="VARCHAR" property="cbrSocityNumber" />
+    <result column="cbr_name" jdbcType="VARCHAR" property="cbrName" />
+    <result column="sex" jdbcType="INTEGER" property="sex" />
+    <result column="birthday" jdbcType="DATE" property="birthday" />
+    <result column="group_county_id" jdbcType="VARCHAR" property="groupCountyId" />
+    <result column="group_county_name" jdbcType="VARCHAR" property="groupCountyName" />
+    <result column="group_city_id" jdbcType="VARCHAR" property="groupCityId" />
+    <result column="group_city_name" jdbcType="VARCHAR" property="groupCityName" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, cbr_id_card, cbr_socity_number, cbr_name, sex, birthday, group_county_id, group_county_name, 
+    group_city_id, group_city_name
+  </sql>
+  <select id="selectByExample" parameterType="com.taikang.jkx.model.HiomsCbrExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from hioms_cbr
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from hioms_cbr
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from hioms_cbr
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.taikang.jkx.model.HiomsCbrExample">
+    delete from hioms_cbr
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.taikang.jkx.model.HiomsCbr">
+    insert into hioms_cbr (id, cbr_id_card, cbr_socity_number, 
+      cbr_name, sex, birthday, 
+      group_county_id, group_county_name, group_city_id, 
+      group_city_name)
+    values (#{id,jdbcType=INTEGER}, #{cbrIdCard,jdbcType=VARCHAR}, #{cbrSocityNumber,jdbcType=VARCHAR}, 
+      #{cbrName,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER}, #{birthday,jdbcType=DATE}, 
+      #{groupCountyId,jdbcType=VARCHAR}, #{groupCountyName,jdbcType=VARCHAR}, #{groupCityId,jdbcType=VARCHAR}, 
+      #{groupCityName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.taikang.jkx.model.HiomsCbr">
+    insert into hioms_cbr
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="cbrIdCard != null">
+        cbr_id_card,
+      </if>
+      <if test="cbrSocityNumber != null">
+        cbr_socity_number,
+      </if>
+      <if test="cbrName != null">
+        cbr_name,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="birthday != null">
+        birthday,
+      </if>
+      <if test="groupCountyId != null">
+        group_county_id,
+      </if>
+      <if test="groupCountyName != null">
+        group_county_name,
+      </if>
+      <if test="groupCityId != null">
+        group_city_id,
+      </if>
+      <if test="groupCityName != null">
+        group_city_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="cbrIdCard != null">
+        #{cbrIdCard,jdbcType=VARCHAR},
+      </if>
+      <if test="cbrSocityNumber != null">
+        #{cbrSocityNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="cbrName != null">
+        #{cbrName,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="birthday != null">
+        #{birthday,jdbcType=DATE},
+      </if>
+      <if test="groupCountyId != null">
+        #{groupCountyId,jdbcType=VARCHAR},
+      </if>
+      <if test="groupCountyName != null">
+        #{groupCountyName,jdbcType=VARCHAR},
+      </if>
+      <if test="groupCityId != null">
+        #{groupCityId,jdbcType=VARCHAR},
+      </if>
+      <if test="groupCityName != null">
+        #{groupCityName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.taikang.jkx.model.HiomsCbrExample" resultType="java.lang.Long">
+    select count(*) from hioms_cbr
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update hioms_cbr
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.cbrIdCard != null">
+        cbr_id_card = #{record.cbrIdCard,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cbrSocityNumber != null">
+        cbr_socity_number = #{record.cbrSocityNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cbrName != null">
+        cbr_name = #{record.cbrName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sex != null">
+        sex = #{record.sex,jdbcType=INTEGER},
+      </if>
+      <if test="record.birthday != null">
+        birthday = #{record.birthday,jdbcType=DATE},
+      </if>
+      <if test="record.groupCountyId != null">
+        group_county_id = #{record.groupCountyId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.groupCountyName != null">
+        group_county_name = #{record.groupCountyName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.groupCityId != null">
+        group_city_id = #{record.groupCityId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.groupCityName != null">
+        group_city_name = #{record.groupCityName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update hioms_cbr
+    set id = #{record.id,jdbcType=INTEGER},
+      cbr_id_card = #{record.cbrIdCard,jdbcType=VARCHAR},
+      cbr_socity_number = #{record.cbrSocityNumber,jdbcType=VARCHAR},
+      cbr_name = #{record.cbrName,jdbcType=VARCHAR},
+      sex = #{record.sex,jdbcType=INTEGER},
+      birthday = #{record.birthday,jdbcType=DATE},
+      group_county_id = #{record.groupCountyId,jdbcType=VARCHAR},
+      group_county_name = #{record.groupCountyName,jdbcType=VARCHAR},
+      group_city_id = #{record.groupCityId,jdbcType=VARCHAR},
+      group_city_name = #{record.groupCityName,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.taikang.jkx.model.HiomsCbr">
+    update hioms_cbr
+    <set>
+      <if test="cbrIdCard != null">
+        cbr_id_card = #{cbrIdCard,jdbcType=VARCHAR},
+      </if>
+      <if test="cbrSocityNumber != null">
+        cbr_socity_number = #{cbrSocityNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="cbrName != null">
+        cbr_name = #{cbrName,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="birthday != null">
+        birthday = #{birthday,jdbcType=DATE},
+      </if>
+      <if test="groupCountyId != null">
+        group_county_id = #{groupCountyId,jdbcType=VARCHAR},
+      </if>
+      <if test="groupCountyName != null">
+        group_county_name = #{groupCountyName,jdbcType=VARCHAR},
+      </if>
+      <if test="groupCityId != null">
+        group_city_id = #{groupCityId,jdbcType=VARCHAR},
+      </if>
+      <if test="groupCityName != null">
+        group_city_name = #{groupCityName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.taikang.jkx.model.HiomsCbr">
+    update hioms_cbr
+    set cbr_id_card = #{cbrIdCard,jdbcType=VARCHAR},
+      cbr_socity_number = #{cbrSocityNumber,jdbcType=VARCHAR},
+      cbr_name = #{cbrName,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=INTEGER},
+      birthday = #{birthday,jdbcType=DATE},
+      group_county_id = #{groupCountyId,jdbcType=VARCHAR},
+      group_county_name = #{groupCountyName,jdbcType=VARCHAR},
+      group_city_id = #{groupCityId,jdbcType=VARCHAR},
+      group_city_name = #{groupCityName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
